@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "mutcov"
+name = "usefulgnom"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "Viral Genomic Utilities"
+authors = ["Gordon Julian Koehn <gordon.koehn@dbsse.ethz.ch>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -10,6 +10,48 @@ python = "^3.12"
 pandas = "^2.2.2"
 matplotlib = "^3.9.2"
 seaborn = "^0.13.2"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+ruff = "^0.0.253"
+black = "^23.1.0"
+pytest-cov = "^4.0.0"
+pytest-xdist = "^3.2.0"
+pre-commit = "^3.1.0"
+interrogate = "^1.5.0"
+pyright = "^1.1.309"
+mkdocs-material = "^9.1.6"
+mkdocstrings = {extras = ["python"], version = "^0.21.2"}
+mkdocs-gen-files = "^0.4.0"
+mkdocs-literate-nav = "^0.6.0"
+
+[tool.coverage.report]
+fail_under = 85.0
+
+[tool.interrogate]
+ignore-init-method = false
+ignore-init-module = false
+ignore-magic = true
+ignore-semiprivate = true
+ignore-private = true
+ignore-property-decorators = false
+ignore-module = false
+fail-under = 95
+exclude = ["setup.py", "docs", "build"]
+ignore-regex = ["^get$", "^mock_.*", ".*BaseClass.*"]
+verbose = 2
+quiet = false
+whitelist-regex = []
+color = true
+
+[tool.pyright]
+include = ["src"]
+exclude = ["**/node_modules",
+    "**/__pycache__",
+    "src/experimental",
+    "src/typestubs"
+]
 
 
 [build-system]
