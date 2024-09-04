@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "mutcov"
+name = "usefulnom"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Gordon Julian Koehn <gordon.koehn@dbsse.ethz.ch>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
