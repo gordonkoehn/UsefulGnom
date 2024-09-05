@@ -8,5 +8,5 @@ channels:
   - defaults
 dependencies:
   - python=3.12.5
-  - snakemake=8.19.3
+  - snakemake=8.19.2
   - poetry=1.8.3
