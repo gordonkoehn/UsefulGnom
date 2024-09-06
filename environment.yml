@@ -7,6 +7,6 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.12.5
+  - python=3.9.18
   - snakemake=8.18.2
   - poetry=1.8.3
