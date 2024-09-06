@@ -8,8 +8,8 @@ from pathlib import Path
 ###################################
 ### Enrionmental Variables
 # Inputs
-basecnt_tsv_dir = "/cluster/project/pangolin/work-vp-test/results/{variant}/{batch}/alignments/basecnt.tsv.gz"
-datamatrix_dir = "/cluster/project/pangolin/work-vp-test/results/{variant}/{batch}/alignments/coverage.tsv.gz"
+basecnt_tsv_dir = "/cluster/project/pangolin/work-vp-test/results/*/*/alignments/basecnt.tsv.gz"
+datamatrix_dir = "/cluster/project/pangolin/work-vp-test/results/datamatrix.csv"
 timeline_fp = "/cluster/project/pangolin/work-vp-test/variants/timeline.tsv"
 # Outputs
 output_fp = "/cluster/home/koehng/temp/coverage.csv"
@@ -21,7 +21,7 @@ rule basecnt_coverage_depth:
     """Generate matrix of coverage depth per base position
     """
     input:
-        basecnt_tsv = basecnt_tsv_dir,
+        basecnt_tsv = glob.glob(basecnt_tsv_dir, recursive=True),
         datamatrix = datamatrix_dir,
         timeline = timeline_fp
     output:
@@ -29,6 +29,8 @@ rule basecnt_coverage_depth:
     run:
         logging.info("Running basecnt_coverage_depth")
         ug.analyse.basecnt_coverage(
-            Path("data/coverage/coverage.tsv"),
-            Path("data/coverage/coverage_depth.tsv"),
+            basecnt_tsv=input.basecnt_tsv,
+            datamatrix=input.datamatrix,
+            timeline=input.timeline,
+            output_fp=output.output_file
         )
