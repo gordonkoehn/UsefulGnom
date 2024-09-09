@@ -138,8 +138,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     main(
-        args.coverage_tsv_dir,
+        args.coverage_tsv_dir, # acutally coverage.tsv.gz
         args.datamatrix_dir,
         args.timeline_file_dir,
         args.output_file,
     )
+
+## use coverage.tsv !!!

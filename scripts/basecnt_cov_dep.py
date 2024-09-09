@@ -4,6 +4,9 @@ import glob
 import gzip
 import re
 
+# Example usage:
+# python coverage_basecnt.py "/cluster/project/pangolin/work-vp-test/results/*/*/alignments/basecnt.tsv.gz" KP_diff_mutations.csv /cluster/project/pangolin/work-vp-test/variants/timeline.tsv mut_basecnt_coverage.csv
+
 
 # Iterate over multiple basecnt.tsv.gz files and take sample IDs, mutation position, new nt, and number of reads
 # 1. Import datamatrix csv file with mutations-> extract the positions, and the mutated nt (from the rows)
@@ -139,7 +142,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     main(
-        args.coverage_tsv_dir,
+        args.coverage_tsv_dir, # actually basecnt_tsv_dir
         args.datamatrix_dir,
         args.timeline_file_dir,
         args.output_file,
