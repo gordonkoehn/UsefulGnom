@@ -96,7 +96,6 @@ def run_basecnt_coverage(
         None
 
     """
-
     # Iterate over multiple basecnt.tsv.gz files and take sample IDs,
     #  mutation position, new nt, and number of reads
     # 1. Import datamatrix csv file with mutations-> extract the positions,
@@ -120,29 +119,21 @@ def run_basecnt_coverage(
     position_mutated_nt = extract_mutation_position_and_nt(datamatrix_dir)
 
     # record columns for df (one sample = one column of different mutations)
-    # columns = []
     columns = pd.DataFrame()
     # iterate over the basecnt.tsv.gz files from the list
     for basecnt_file in coverage_files:
         # extract the sample name from the directory name
-        # print(basecnt_file)
         sample_name = basecnt_file.split("/")[-4]
         if sample_name in sample_IDs.iloc[:, 0].values:
-            # print(sample_name)
-
             # load the basecnt.tsv.gz file of that sample, and extract the
             # column with the mutation coverages
             df = load_convert(basecnt_file, position_mutated_nt)
-
             date = sample_IDs.loc[sample_IDs.loc[:, "sample"] == sample_name, "date"]
-
             columns[date] = df
 
-    ###df_out = pd.concat(columns, ignore_index = True, axis = 1)
+    # wrangle the data to have the same order of columns as in the datamatrix
     ind = pd.read_csv(datamatrix_dir, usecols=["mut"])
-
     sorted_df = columns.sort_index(axis=1)
     sorted_df = sorted_df.set_index(ind["mut"])
-
+    # save the output to a csv file
     sorted_df.to_csv(output_file)
-    # columns.to_csv(output_file, index=False)
