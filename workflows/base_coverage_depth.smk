@@ -10,7 +10,7 @@ from pathlib import Path
 ### Enrionmental Variables
 # Inputs
 basecnt_tsv_dir = "/cluster/project/pangolin/work-vp-test/results/*/*/alignments/basecnt.tsv.gz"
-datamatrix_dir = "/cluster/project/pangolin/work-vp-test/results/datamatrix.csv"
+datamatrix_dir = "/cluster/home/koehng/temp/datamatrix.csv"
 timeline_fp = "/cluster/project/pangolin/work-vp-test/variants/timeline.tsv"
 # Outputs
 output_fp = "/cluster/home/koehng/temp/coverage.csv"
