@@ -179,5 +179,3 @@ combined_df.to_csv(
     header=True,
     index=False,
 )
-
-
