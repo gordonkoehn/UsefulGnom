@@ -4,6 +4,7 @@ from usefulgnom.serialize.basecnt_coverage import load_convert
 
 import pandas as pd
 import re
+import glob
 
 
 def extract_mutation_position_and_nt(datamatrix_dir: str) -> list[tuple]:
@@ -66,7 +67,7 @@ def extract_sample_ID(timeline_file_dir: str) -> pd.DataFrame:
 
 
 def run_basecnt_coverage(
-    coverage_fps: list[str],
+    coverage_fps: str,
     timeline_file_dir: str,
     datamatrix_dir: str,
     output_file: str,
@@ -99,6 +100,9 @@ def run_basecnt_coverage(
     #   3.3 Add this column to the matrix of coverage
     # 4. Output csv file
 
+    # get list of base coverage basecnt.tsv.gz files in the input directory
+    coverage_files = glob.glob(coverage_fps, recursive=True)
+
     # get samples_IDs from the specified location, time and sequencing protocol
     sample_IDs = extract_sample_ID(timeline_file_dir)
     # get the position in the genome and mutated nt for which we want to
@@ -109,7 +113,7 @@ def run_basecnt_coverage(
     # columns = []
     columns = pd.DataFrame()
     # iterate over the basecnt.tsv.gz files from the list
-    for basecnt_file in coverage_fps:
+    for basecnt_file in coverage_files:
         # extract the sample name from the directory name
         # print(basecnt_file)
         sample_name = basecnt_file.split("/")[-4]

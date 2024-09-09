@@ -22,15 +22,19 @@ rule basecnt_coverage_depth:
     """Generate matrix of coverage depth per base position
     """
     input:
-        basecnt_tsv = glob.glob(basecnt_tsv_dir, recursive=True),
+        # basecnt_tsv = glob.glob(basecnt_tsv_dir, recursive=True),
         datamatrix = datamatrix_dir,
         timeline = timeline_fp
     output:
         output_file = output_fp
+
+    params:
+        basecnt_tsv = basecnt_tsv_dir,
+
     run:
         logging.info("Running basecnt_coverage_depth")
         ug.analyze.run_basecnt_coverage(
-            basecnt_tsv=input.basecnt_tsv,
+            basecnt_tsv=params.basecnt_tsv,
             datamatrix=input.datamatrix,
             timeline=input.timeline,
             output_fp=output.output_file
