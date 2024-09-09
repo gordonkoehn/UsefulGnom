@@ -21,7 +21,6 @@ def extract_mutation_position_and_nt(datamatrix_dir: str) -> list[tuple]:
     Raises:
         ValueError: If no match is found for the mutation.
     """
-    # TODO: change path to pathlib.Path
 
     # make sure datamatrix_dir is a filepath
     datamatrix_fp = pathlib.Path(datamatrix_dir)
@@ -64,11 +63,14 @@ def extract_sample_ID(timeline_file_dir: str) -> pd.DataFrame:
     timeline_file["date"] = pd.to_datetime(timeline_file["date"])
 
     selected_rows = timeline_file[
+        # TODO: add option to filter by date
+        # TODO: add option to filter by location
         # select the rows with date from 2022-07 to 2023-03
         # (according to samples.wastewateronly.ready.tsv)
         (timeline_file["date"] > "2024-01-01")
         & (timeline_file["date"] < "2024-07-03")
         & (timeline_file["location"].isin(["Zürich (ZH)"]))  # & # only Zurich
+        # TODO: add option to filter by protocol
         # e.g. filtering condition to take only Artic v4.1 protocol:
         # (timeline_file["proto"] == "v41")
     ]
