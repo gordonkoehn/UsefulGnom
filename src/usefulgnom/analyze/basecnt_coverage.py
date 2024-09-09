@@ -5,6 +5,7 @@ from usefulgnom.serialize.basecnt_coverage import load_convert
 import pandas as pd
 import re
 import glob
+import pathlib
 
 
 def extract_mutation_position_and_nt(datamatrix_dir: str) -> list[tuple]:
@@ -19,14 +20,21 @@ def extract_mutation_position_and_nt(datamatrix_dir: str) -> list[tuple]:
     """
     # TODO: change path to pathlib.Path
 
-    datamatrix = pd.read_csv(datamatrix_dir, usecols=["mut"])
+    # make sure datamatrix_dir is a filepath
+    datamatrix_fp = pathlib.Path(datamatrix_dir)
+
+    # Read the CSV file
+    datamatrix = pd.read_csv(datamatrix_fp, usecols=["mut"])
 
     # Regex pattern to extract positions and new (mutated) nucleotides
     pattern = r"(\d+)([A-Z])"
     # Extract positions and new nucleotides using regex
     # Result is list of tuples: position and new nucleotide
     extracted_data = [
-        (re.search(pattern, mutation).group(1), re.search(pattern, mutation).group(2))
+        (
+            re.search(pattern, mutation).group(1),  # pyright: ignore
+            re.search(pattern, mutation).group(2),  # pyright: ignore
+        )
         for mutation in datamatrix["mut"]
     ]
 
