@@ -27,14 +27,10 @@ rule basecnt_coverage_depth:
         timeline = timeline_fp
     output:
         output_file = output_fp
-
-    params:
-        basecnt_tsv = basecnt_tsv_dir,
-
     run:
         logging.info("Running basecnt_coverage_depth")
         ug.analyze.run_basecnt_coverage(
-            basecnt_tsv=params.basecnt_tsv,
+            basecnt_tsv="/cluster/project/pangolin/work-vp-test/results/*/*/alignments/basecnt.tsv.gz",
             datamatrix=input.datamatrix,
             timeline=input.timeline,
             output_fp=output.output_file
