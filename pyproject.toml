@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Viral Genomic Utilities"
 authors = ["Gordon Julian Koehn <gordon.koehn@dbsse.ethz.ch>"]
 readme = "README.md"
+packages = [{include = "usefulgnom", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.11.2"
