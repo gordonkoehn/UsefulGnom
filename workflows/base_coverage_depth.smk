@@ -30,7 +30,7 @@ rule basecnt_coverage_depth:
     run:
         logging.info("Running basecnt_coverage_depth")
         ug.analyze.run_basecnt_coverage(
-            basecnt_fps="/cluster/project/pangolin/work-vp-test/results/*/*/alignments/basecnt.tsv.gz",
+            basecnt_fps=basecnt_tsv_dir,
             timeline_file_dir=input.timeline,
             datamatrix_dir=input.datamatrix,
             output_file=output.output_file
