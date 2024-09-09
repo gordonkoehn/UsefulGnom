@@ -65,7 +65,7 @@ def extract_sample_ID(timeline_file_dir: str) -> pd.DataFrame:
     return samples_ID
 
 
-def basecnt_coverage(
+def run_basecnt_coverage(
     coverage_fps: list[str],
     timeline_file_dir: str,
     datamatrix_dir: str,
