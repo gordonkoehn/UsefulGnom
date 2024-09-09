@@ -67,7 +67,7 @@ def extract_sample_ID(timeline_file_dir: str) -> pd.DataFrame:
 
 
 def run_basecnt_coverage(
-    coverage_fps: str,
+    basecnt_fps: str,
     timeline_file_dir: str,
     datamatrix_dir: str,
     output_file: str,
@@ -76,7 +76,7 @@ def run_basecnt_coverage(
     Analyze the read nucleotide coverage data.
 
     Args:
-        coverage_fps list[str]: List of paths to the basecnt.tsv.gz files.
+        basecnt_fps list[str]: List of paths to the basecnt.tsv.gz files.
         '...work-ww-lofreq-230405/results/*/*/alignments/basecnt.tsv.gz'
         timeline_file_dir (str): Path to the timeline file.
         datamatrix_dir (str): Path to the datamatrix file.
@@ -101,7 +101,7 @@ def run_basecnt_coverage(
     # 4. Output csv file
 
     # get list of base coverage basecnt.tsv.gz files in the input directory
-    coverage_files = glob.glob(coverage_fps, recursive=True)
+    coverage_files = glob.glob(basecnt_fps, recursive=True)
 
     # get samples_IDs from the specified location, time and sequencing protocol
     sample_IDs = extract_sample_ID(timeline_file_dir)
