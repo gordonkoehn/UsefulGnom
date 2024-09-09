@@ -17,6 +17,9 @@ def extract_mutation_position_and_nt(datamatrix_dir: str) -> list[tuple]:
 
     Returns:
         list[tuple]: List of tuples containing mutation position and new nucleotide.
+
+    Raises:
+        ValueError: If no match is found for the mutation.
     """
     # TODO: change path to pathlib.Path
 
@@ -30,13 +33,12 @@ def extract_mutation_position_and_nt(datamatrix_dir: str) -> list[tuple]:
     pattern = r"(\d+)([A-Z])"
     # Extract positions and new nucleotides using regex
     # Result is list of tuples: position and new nucleotide
-    extracted_data = [
-        (
-            re.search(pattern, mutation).group(1),  # pyright: ignore
-            re.search(pattern, mutation).group(2),  # pyright: ignore
-        )
-        for mutation in datamatrix["mut"]
-    ]
+    extracted_data = []
+    for mutation in datamatrix["mut"]:
+        match = re.search(pattern, mutation)
+        if match is None:
+            raise ValueError(f"No match found for mutation: {mutation}")
+        extracted_data.append((match.group(1), match.group(2)))
 
     return extracted_data
 
