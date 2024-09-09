@@ -28,7 +28,7 @@ rule basecnt_coverage_depth:
         output_file = output_fp
     run:
         logging.info("Running basecnt_coverage_depth")
-        ug.analyse.basecnt_coverage(
+        ug.analyse.run_basecnt_coverage(
             basecnt_tsv=input.basecnt_tsv,
             datamatrix=input.datamatrix,
             timeline=input.timeline,

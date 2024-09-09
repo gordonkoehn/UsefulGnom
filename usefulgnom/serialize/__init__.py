@@ -1,4 +1,5 @@
 """Handel serialization of objects to and from strings."""
 
+from usefulgnom.serialize.basecnt_coverage import load_convert
 
-all = ["basecnt_coverage"]
+all = ["load_convert"]
