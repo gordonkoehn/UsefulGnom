@@ -2,6 +2,9 @@
 
 from usefulgnom.serialize.basecnt_coverage import load_convert
 
+from typing import Optional
+
+from datetime import datetime
 import pandas as pd
 import re
 import glob
@@ -42,13 +45,27 @@ def extract_mutation_position_and_nt(datamatrix_dir: str) -> list[tuple]:
     return extracted_data
 
 
-def extract_sample_ID(timeline_file_dir: str) -> pd.DataFrame:
+def extract_sample_ID(
+    timeline_file_dir: str,
+    startdate: datetime = datetime.strptime("2024-01-01", "%Y-%m-%d"),
+    enddate: datetime = datetime.strptime("2024-07-03", "%Y-%m-%d"),
+    location: str = "Zürich (ZH)",
+    protocol: Optional[str] = None,
+) -> pd.DataFrame:
     """
     Extract the sample ID of the samples from selected time period,
     location, and protocol. extract the date of the samples.
 
+    Seelects sampled from 2022-07 to 2023-03 and location Zürich by default.
+
     Args:
         timeline_file_dir (str): Path to the timeline file.
+        startdate (datetime): Start date of the time period.
+        enddate (datetime): End date of the time period.
+        location (str): Location of the samples.
+        protocol (str): Sequencing protocol used.
+                         eg. for filtering condition to take
+                             only Artic v4.1 protocol: "v41"
 
     Returns:
         pd.DataFrame: DataFrame containing the sample ID and date.
@@ -63,17 +80,15 @@ def extract_sample_ID(timeline_file_dir: str) -> pd.DataFrame:
     timeline_file["date"] = pd.to_datetime(timeline_file["date"])
 
     selected_rows = timeline_file[
-        # TODO: add option to filter by date
-        # TODO: add option to filter by location
-        # select the rows with date from 2022-07 to 2023-03
+        # TODO: remove subsample selection line below
         # (according to samples.wastewateronly.ready.tsv)
-        (timeline_file["date"] > "2024-01-01")
-        & (timeline_file["date"] < "2024-07-03")
-        & (timeline_file["location"].isin(["Zürich (ZH)"]))  # & # only Zurich
-        # TODO: add option to filter by protocol
-        # e.g. filtering condition to take only Artic v4.1 protocol:
-        # (timeline_file["proto"] == "v41")
+        (timeline_file["date"] > startdate.strftime("%Y-%m-%d"))
+        & (timeline_file["date"] < enddate.strftime("%Y-%m-%d"))
+        & (timeline_file["location"].isin([location]))
     ]
+    if protocol is not None:
+        selected_rows = selected_rows[(timeline_file["proto"] == protocol)]
+
     samples_ID = selected_rows[["sample", "date"]]
     return samples_ID
 
