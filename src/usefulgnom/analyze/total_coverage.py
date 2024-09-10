@@ -13,45 +13,34 @@ import glob
 import re
 
 
-def extract_mutation_position(datamatrix_dir):
-    datamatrix = pd.read_csv(datamatrix_dir, usecols=["mut"])
+def extract_mutation_position(mutations_of_interest_fp: str) -> list[str]:
+    """
+    Parse the mutation position read data from file.
+
+    Args:
+        mutations_of_interest_fp (str): Path to the mutations_of_interest file.
+
+    Returns:
+            list[str]: List of mutation positions.
+
+    Raises:
+        ValueError: If no match is found for the mutation.
+    """
+
+    datamatrix = pd.read_csv(mutations_of_interest_fp, usecols=["mut"])
 
     # Regex pattern to extract positions
     pattern = r"\d+"
     # Extract positions using regex
     # Result: list of positions
-    extracted_data = [
-        re.search(pattern, mutation).group() for mutation in datamatrix["mut"]
-    ]
+    extracted_data = []
+    for mutation in datamatrix["mut"]:
+        match = re.search(pattern, mutation)
+        if match is None:
+            raise ValueError(f"No match found for mutation: {mutation}")
+        extracted_data.append(match.group())
 
     return extracted_data
-
-
-# def extract_sample_ID(timeline_file_dir):
-#     """
-#     Extract the sample ID of the samples from selected time period, location, and protocol.
-#     Extract the date of the samples.
-#     """
-
-#     timeline_file = pd.read_csv(
-#         timeline_file_dir,
-#         sep="\t",
-#         usecols=["sample", "proto", "date", "location"],
-#         encoding="utf-8",
-#     )
-#     # convert the "date" column to datetime type:
-#     timeline_file["date"] = pd.to_datetime(timeline_file["date"])
-
-#     selected_rows = timeline_file[
-#         # select the rows with date from 2024-01 to 2024-07 (according to .tsv file)
-#         (timeline_file["date"] > "2024-01-01")
-#         & (timeline_file["date"] < "2024-07-03")
-#         & (timeline_file["location"].isin(["Zürich (ZH)"]))  # & # only Zurich
-#         # filtering condition to take only Artic v4.1 protocol:
-#         # (timeline_file["proto"] == "v41")
-#     ]
-#     samples_ID = selected_rows[["sample", "date"]]
-#     return samples_ID
 
 
 def run_total_coverage_depth(
@@ -65,16 +54,20 @@ def run_total_coverage_depth(
 
     Args:
         coverage_tsv_fps (str): Path Pattern to the coverage.tsv.gz files.
-                            e.g.: cluster/project/pangolin/work-vp-test/variants/timeline.tsv mut_basecnt_coverage.csv
+            e.g.: cluster/project/pangolin/work-vp-test/variants/coverage.csv
         mutations_of_interest_fp (str): Path to the mutations of interest file.
         timeline_file_dir (str): Path to the timeline file.
         output_file (str): Path to the output file.
     """
 
-    # Iterate over multiple coverage.tsv.gz files and take sample IDs, mutation position, new nt, and number of reads
-    # 1. Import mutations_of_interest csv file with mutations -> extract the positions and the mutated nt (from the rows)
-    # 2. Take samples names (ID) from tsv file (pre-select time, protocol, location)
-    # 3. Iterate over all directories with the name that is in the list of specified IDs:
+    # Iterate over multiple coverage.tsv.gz files and take sample IDs, mutation
+    # position, new nt, and number of reads
+    # 1. Import mutations_of_interest csv file with mutations -> extract the
+    #    positions and the mutated nt (from the rows)
+    # 2. Take samples names (ID) from tsv file
+    #    (pre-select time, protocol, location)
+    # 3. Iterate over all directories with the name that is in the list of
+    #     specified IDs:
     # 3.1 Open coverage.tsv.gz files for each sample
     # 3.2 Take the reads of each position and mutated nt
     # 3.3 Add this column to the matrix of coverage
@@ -98,7 +91,8 @@ def run_total_coverage_depth(
         sample_name = cov_file.split("/")[-4]
 
         if sample_name in sample_IDs.loc[:, "sample"].values:
-            # load the coverage.tsv.gz file of that sample, and extract the column with the mutation coverages
+            # load the coverage.tsv.gz file of that sample,
+            # and extract the column with the mutation coverages
             df = load_convert_total(cov_file, position)
 
             date = sample_IDs.loc[sample_IDs.loc[:, "sample"] == sample_name, "date"]
@@ -108,6 +102,7 @@ def run_total_coverage_depth(
     ind = pd.read_csv(mutations_of_interest_fp, usecols=["mut"])
 
     sorted_df = columns.sort_index(axis=1)
-    # note that the index show the mutation (actually we find total coverage per position = independent on the mutated nt)
+    # note that the index show the mutation
+    # (actually we find total coverage per position = independent on the mutated nt)
     sorted_df = sorted_df.set_index(ind["mut"])
     sorted_df.to_csv(output_file)
