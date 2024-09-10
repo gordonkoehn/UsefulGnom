@@ -11,12 +11,12 @@ import glob
 import pathlib
 
 
-def extract_mutation_position_and_nt(datamatrix_dir: str) -> list[tuple]:
+def extract_mutation_position_and_nt(mutations_of_interest_dir: str) -> list[tuple]:
     """
     Parse the mutation-position read data from file.
 
     Args:
-        datamatrix_dir (str): Path to the datamatrix file.
+        mutations_of_interest_dir (str): Path to the mutations_of_interest file.
 
     Returns:
         list[tuple]: List of tuples containing mutation position and new nucleotide.
@@ -25,18 +25,18 @@ def extract_mutation_position_and_nt(datamatrix_dir: str) -> list[tuple]:
         ValueError: If no match is found for the mutation.
     """
 
-    # make sure datamatrix_dir is a filepath
-    datamatrix_fp = pathlib.Path(datamatrix_dir)
+    # make sure mutations_of_interest_dir is a filepath
+    mutations_of_interest_fp = pathlib.Path(mutations_of_interest_dir)
 
     # Read the CSV file
-    datamatrix = pd.read_csv(datamatrix_fp, usecols=["mut"])
+    mutations_of_interest = pd.read_csv(mutations_of_interest_fp, usecols=["mut"])
 
     # Regex pattern to extract positions and new (mutated) nucleotides
     pattern = r"(\d+)([A-Z])"
     # Extract positions and new nucleotides using regex
     # Result is list of tuples: position and new nucleotide
     extracted_data = []
-    for mutation in datamatrix["mut"]:
+    for mutation in mutations_of_interest["mut"]:
         match = re.search(pattern, mutation)
         if match is None:
             raise ValueError(f"No match found for mutation: {mutation}")
@@ -96,7 +96,7 @@ def extract_sample_ID(
 def run_basecnt_coverage(
     basecnt_fps: str,
     timeline_file_dir: str,
-    datamatrix_dir: str,
+    mutations_of_interest_dir: str,
     output_file: str,
     startdate: str = "2024-01-01",
     enddate: str = "2024-07-03",
@@ -109,7 +109,7 @@ def run_basecnt_coverage(
         basecnt_fps list[str]: List of paths to the basecnt.tsv.gz files.
         '...work-ww-lofreq-230405/results/*/*/alignments/basecnt.tsv.gz'
         timeline_file_dir (str): Path to the timeline file.
-        datamatrix_dir (str): Path to the datamatrix file.
+        mutations_of_interest_dir (str): Path to the mutations_of_interest file.
         output_file (str): Path to the output file.
         startdate (str): Start date of the time period, default is 2024-01-01.
         enddate (str): End date of the time period, default is 2024-07-03.
@@ -121,7 +121,7 @@ def run_basecnt_coverage(
     """
     # Iterate over multiple basecnt.tsv.gz files and take sample IDs,
     #  mutation position, new nt, and number of reads
-    # 1. Import datamatrix csv file with mutations-> extract the positions,
+    # 1. Import mutations_of_interest csv file with mutations-> extract the positions,
     #  and the mutated nt (from the rows)
     # 2. Take samples names (ID) from tsv file (pre-select time, protocol,
     #    location)
@@ -143,7 +143,7 @@ def run_basecnt_coverage(
     )
     # get the position in the genome and mutated nt for which we want to
     #  find coverage
-    position_mutated_nt = extract_mutation_position_and_nt(datamatrix_dir)
+    position_mutated_nt = extract_mutation_position_and_nt(mutations_of_interest_dir)
 
     # record columns for df (one sample = one column of different mutations)
     columns = pd.DataFrame()
@@ -158,8 +158,8 @@ def run_basecnt_coverage(
             date = sample_IDs.loc[sample_IDs.loc[:, "sample"] == sample_name, "date"]
             columns[date] = df
 
-    # wrangle the data to have the same order of columns as in the datamatrix
-    ind = pd.read_csv(datamatrix_dir, usecols=["mut"])
+    # wrangle the data to have the same order of columns as in the mutations_of_interest
+    ind = pd.read_csv(mutations_of_interest_dir, usecols=["mut"])
     sorted_df = columns.sort_index(axis=1)
     sorted_df = sorted_df.set_index(ind["mut"])
     # save the output to a csv file

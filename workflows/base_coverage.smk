@@ -13,14 +13,16 @@ from pathlib import Path
 
 
 ###################################
-### Enrionmental Variables
-## Inputs
+###### Enrionmental Variables
+#### Inputs
 # str - path pattern to basecnt.tsv files
 basecnt_tsv_dir = "/cluster/project/pangolin/work-vp-test/results/*/*/alignments/basecnt.tsv.gz"
-# files
-datamatrix_dir = "/cluster/home/koehng/temp/datamatrix.csv"
+### files
+# singe file with colum [mut] listing mutation of interest in each row
+mutations_of_interest_dir = "/cluster/home/koehng/temp/mutations_of_interest.csv"
+# timeline file of columns [sample, batch, reads, proto, location_code, date, location]
 timeline_fp = "/cluster/project/pangolin/work-vp-test/variants/timeline.tsv"
-# Outputs
+#### Outputs
 output_fp = "/cluster/home/koehng/temp/basecnt_coverage.csv"
 ###################################
 
@@ -30,7 +32,7 @@ rule basecnt_coverage_depth:
     """Generate matrix of coverage depth per base position
     """
     input:
-        datamatrix = datamatrix_dir,
+        mutations_of_interest = mutations_of_interest_dir,
         timeline = timeline_fp
     output:
         output_file = output_fp
@@ -44,7 +46,7 @@ rule basecnt_coverage_depth:
         ug.analyze.run_basecnt_coverage(
             basecnt_fps=basecnt_tsv_dir,
             timeline_file_dir=input.timeline,
-            datamatrix_dir=input.datamatrix,
+            mutations_of_interest_dir=input.mutations_of_interest,
             output_file=output.output_file,
             startdate = params.startdate,
             enddate = params.enddate,
