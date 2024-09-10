@@ -66,7 +66,7 @@ rule total_coverage_depth:
     """ Calcultate the total coverage depth
     """ 
     input:
-        coverage_tsv_dir = coverage_tsv_dir,
+        coverage_tsv_dir = total_coverage_dir,
         timeline = timeline_fp
     output:
         output_file = output_fp_total
