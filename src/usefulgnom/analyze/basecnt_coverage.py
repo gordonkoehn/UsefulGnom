@@ -98,6 +98,9 @@ def run_basecnt_coverage(
     timeline_file_dir: str,
     datamatrix_dir: str,
     output_file: str,
+    startdate: datetime = datetime.strptime("2024-01-01", "%Y-%m-%d"),
+    enddate: datetime = datetime.strptime("2024-07-03", "%Y-%m-%d"),
+    location: str = "Zürich (ZH)",
 ) -> None:
     """
     Analyze the read nucleotide coverage data.
@@ -108,6 +111,9 @@ def run_basecnt_coverage(
         timeline_file_dir (str): Path to the timeline file.
         datamatrix_dir (str): Path to the datamatrix file.
         output_file (str): Path to the output file.
+        startdate (datetime): Start date of the time period, default is 2024-01-01.
+        enddate (datetime): End date of the time period, default is 2024-07-03.
+        location (str): Location of the samples, default is Zürich (ZH).
 
     Returns:
         None
@@ -130,7 +136,7 @@ def run_basecnt_coverage(
     coverage_files = glob.glob(basecnt_fps, recursive=True)
 
     # get samples_IDs from the specified location, time and sequencing protocol
-    sample_IDs = extract_sample_ID(timeline_file_dir)
+    sample_IDs = extract_sample_ID(timeline_file_dir, startdate, enddate, location)
     # get the position in the genome and mutated nt for which we want to
     #  find coverage
     position_mutated_nt = extract_mutation_position_and_nt(datamatrix_dir)
