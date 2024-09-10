@@ -1,5 +1,5 @@
 """Implements 
-    1) calculating basecnt coverage depth,
+    1) calculating basecnt coverage depth >> rule basecnt_coverage_depth,
     2) total coverage depth and 
     3) computing frequency matrix + calculating mutations statistics.
 """
@@ -14,8 +14,10 @@ from pathlib import Path
 
 ###################################
 ### Enrionmental Variables
-# Inputs
+## Inputs
+# str - path pattern to basecnt.tsv files
 basecnt_tsv_dir = "/cluster/project/pangolin/work-vp-test/results/*/*/alignments/basecnt.tsv.gz"
+# files
 datamatrix_dir = "/cluster/home/koehng/temp/datamatrix.csv"
 timeline_fp = "/cluster/project/pangolin/work-vp-test/variants/timeline.tsv"
 # Outputs
@@ -28,7 +30,6 @@ rule basecnt_coverage_depth:
     """Generate matrix of coverage depth per base position
     """
     input:
-        # basecnt_tsv = glob.glob(basecnt_tsv_dir, recursive=True),
         datamatrix = datamatrix_dir,
         timeline = timeline_fp
     output:
