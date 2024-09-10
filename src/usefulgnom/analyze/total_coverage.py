@@ -6,6 +6,7 @@
 """
 
 from usefulgnom.serialize import load_convert_total
+from usefulgnom.serialize.coverage import extract_sample_ID
 
 import pandas as pd
 import glob
@@ -26,31 +27,31 @@ def extract_mutation_position(datamatrix_dir):
     return extracted_data
 
 
-def extract_sample_ID(timeline_file_dir):
-    """
-    Extract the sample ID of the samples from selected time period, location, and protocol.
-    Extract the date of the samples.
-    """
+# def extract_sample_ID(timeline_file_dir):
+#     """
+#     Extract the sample ID of the samples from selected time period, location, and protocol.
+#     Extract the date of the samples.
+#     """
 
-    timeline_file = pd.read_csv(
-        timeline_file_dir,
-        sep="\t",
-        usecols=["sample", "proto", "date", "location"],
-        encoding="utf-8",
-    )
-    # convert the "date" column to datetime type:
-    timeline_file["date"] = pd.to_datetime(timeline_file["date"])
+#     timeline_file = pd.read_csv(
+#         timeline_file_dir,
+#         sep="\t",
+#         usecols=["sample", "proto", "date", "location"],
+#         encoding="utf-8",
+#     )
+#     # convert the "date" column to datetime type:
+#     timeline_file["date"] = pd.to_datetime(timeline_file["date"])
 
-    selected_rows = timeline_file[
-        # select the rows with date from 2024-01 to 2024-07 (according to .tsv file)
-        (timeline_file["date"] > "2024-01-01")
-        & (timeline_file["date"] < "2024-07-03")
-        & (timeline_file["location"].isin(["Zürich (ZH)"]))  # & # only Zurich
-        # filtering condition to take only Artic v4.1 protocol:
-        # (timeline_file["proto"] == "v41")
-    ]
-    samples_ID = selected_rows[["sample", "date"]]
-    return samples_ID
+#     selected_rows = timeline_file[
+#         # select the rows with date from 2024-01 to 2024-07 (according to .tsv file)
+#         (timeline_file["date"] > "2024-01-01")
+#         & (timeline_file["date"] < "2024-07-03")
+#         & (timeline_file["location"].isin(["Zürich (ZH)"]))  # & # only Zurich
+#         # filtering condition to take only Artic v4.1 protocol:
+#         # (timeline_file["proto"] == "v41")
+#     ]
+#     samples_ID = selected_rows[["sample", "date"]]
+#     return samples_ID
 
 
 def run_total_coverage_depth(
@@ -59,8 +60,19 @@ def run_total_coverage_depth(
     timeline_file_dir: str,
     output_file: str,
 ):
+    """
+    Extract the coverage of the positions of interest from the coverage files.
+
+    Args:
+        coverage_tsv_fps (str): Path Pattern to the coverage.tsv.gz files.
+                            e.g.: cluster/project/pangolin/work-vp-test/variants/timeline.tsv mut_basecnt_coverage.csv
+        mutations_of_interest_fp (str): Path to the mutations of interest file.
+        timeline_file_dir (str): Path to the timeline file.
+        output_file (str): Path to the output file.
+    """
+
     # Iterate over multiple coverage.tsv.gz files and take sample IDs, mutation position, new nt, and number of reads
-    # 1. Import datamatrix csv file with mutations -> extract the positions and the mutated nt (from the rows)
+    # 1. Import mutations_of_interest csv file with mutations -> extract the positions and the mutated nt (from the rows)
     # 2. Take samples names (ID) from tsv file (pre-select time, protocol, location)
     # 3. Iterate over all directories with the name that is in the list of specified IDs:
     # 3.1 Open coverage.tsv.gz files for each sample
