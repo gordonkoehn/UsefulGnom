@@ -103,6 +103,7 @@ rule mutation_statistics:
         frequency_data_matrix = "/cluster/home/koehng/temp/mutstat/frequency_data_matrix.csv",
         mutations_statistics = "/cluster/home/koehng/temp/mutstat/mutations_statistics_C23039G_G22599C.csv"
     run:
+        logging.info("Running mutation_statistics")
         # Median frequency with IQR
 
         # Compute mutation frequencies based on the
@@ -116,11 +117,13 @@ rule mutation_statistics:
         totalcnt[totalcnt < 20] = None
         # Computing mutations statistics:
         frequency_data_matrix = basecnt / totalcnt
+        logging.info("Saving frequency data matrix")
         frequency_data_matrix.to_csv(
             output.frequency_data_matrix,
             header=True,
             index=True,
         )
+        logging.info("Saved frequency data matrix")
 
         sns.set(rc={"figure.figsize": (8, 8)})
         samples = frequency_data_matrix.columns.to_list()
@@ -140,12 +143,13 @@ rule mutation_statistics:
         ax.set_xticklabels(
             df.transpose().index, fontsize=8, rotation=0, ha="right", va="center"
         )
-
+        logging.info("Saving heatmap")
         fig.savefig(
             output.heatmap,
             format="pdf",
             bbox_inches="tight",
         )
+        logging.info("Saved heatmap")
 
         #####################################
         # LINE PLOT
@@ -179,12 +183,15 @@ rule mutation_statistics:
         plt.title(f"Mutation frequencies {location}", fontsize=12)
         plt.legend(title="Mutations", loc="upper left")
 
+        logging.info("Saving lineplot")
         # Save the figure
         fig.savefig(
             output.lineplot,
             format="pdf",
             bbox_inches="tight",
         )
+        logging.info("Saved lineplot")
+
 
         #####################################
         # convert columns to date type
@@ -261,9 +268,10 @@ rule mutation_statistics:
         combined_df = pd.concat(dict_mut, axis=0).reset_index()
         combined_df.columns = ["mutation", "time", "statistic", "value"]
 
-        print(combined_df)
+        logging.info("Saving mutation statistics")
         combined_df.to_csv(
             output.mutations_statistics,
             header=True,
             index=False,
         )
+        logging.info("Saved mutation statistics")
