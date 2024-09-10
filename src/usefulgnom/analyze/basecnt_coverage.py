@@ -1,6 +1,11 @@
-"""Implements the read coverage analysis."""
+"""Implements the read coverage analysis.
 
-from usefulgnom.serialize.basecnt_coverage import load_convert
+    Credits:
+        - core code: @AugusteRi (arimaite@ethz.ch)
+        - implementation: @koehng (koehng@ethz.ch)
+"""
+
+from usefulgnom.serialize import load_convert_bnc
 
 from typing import Optional
 
@@ -154,7 +159,7 @@ def run_basecnt_coverage(
         if sample_name in sample_IDs.iloc[:, 0].values:
             # load the basecnt.tsv.gz file of that sample, and extract the
             # column with the mutation coverages
-            df = load_convert(basecnt_file, position_mutated_nt)
+            df = load_convert_bnc(basecnt_file, position_mutated_nt)
             date = sample_IDs.loc[sample_IDs.loc[:, "sample"] == sample_name, "date"]
             columns[date] = df
 

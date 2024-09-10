@@ -21,13 +21,17 @@ from pathlib import Path
 #### Inputs
 # str - path pattern to basecnt.tsv files
 basecnt_tsv_dir = "/cluster/project/pangolin/work-vp-test/results/*/*/alignments/basecnt.tsv.gz"
+total_coverage_dir = "/cluster/project/pangolin/work-vp-test/results/*/*/alignments/coverage.tsv.gz"
 ### files
 # singe file with colum [mut] listing mutation of interest in each row
 mutations_of_interest_dir = "/cluster/home/koehng/temp/mutations_of_interest.csv"
 # timeline file of columns [sample, batch, reads, proto, location_code, date, location]
 timeline_fp = "/cluster/project/pangolin/work-vp-test/variants/timeline.tsv"
 #### Outputs
-output_fp = "/cluster/home/koehng/temp/basecnt_coverage.csv"
+# for basecnt_coverage_depth
+output_fp_basecnt = "/cluster/home/koehng/temp/basecnt_coverage.csv"
+# for total_coverage_depth
+output_fp_total = "/cluster/home/koehng/temp/total_coverage.csv"
 ###################################
 
 
@@ -39,7 +43,7 @@ rule basecnt_coverage_depth:
         mutations_of_interest = mutations_of_interest_dir,
         timeline = timeline_fp
     output:
-        output_file = output_fp
+        output_file = output_fp_basecnt
     params:
         startdate = "2024-01-01",
         enddate = "2024-07-03",
@@ -55,4 +59,21 @@ rule basecnt_coverage_depth:
             startdate = params.startdate,
             enddate = params.enddate,
             location = params.location
+        )
+
+
+rule total_coverage_depth:
+    """ Calcultate the total coverage depth
+    """ 
+    input:
+        coverage_tsv_dir = coverage_tsv_dir,
+        timeline = timeline_fp
+    output:
+        output_file = output_fp_total
+    run:
+        logging.info("Running total_coverage_depth")
+        ug.analyze.run_total_coverage_depth(
+            coverage_tsv_dir=input.coverage_tsv_dir,
+            timeline_file_dir=input.timeline,
+            output_file=output.output_file
         )
