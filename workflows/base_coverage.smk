@@ -73,8 +73,8 @@ rule total_coverage_depth:
     run:
         logging.info("Running total_coverage_depth")
         ug.analyze.run_total_coverage_depth(
-            coverage_tsv_dir=total_coverage_dir,
-            datamatrix_dir=input.mutations_of_interest,
+            coverage_tsv_fps=total_coverage_dir,
+            mutations_of_interest_fp=input.mutations_of_interest,
             timeline_file_dir=input.timeline,
             output_file=output.output_file
         )
