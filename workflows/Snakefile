@@ -1,3 +1,3 @@
 """Snakemake file defining the workflows"""
 
-include: "base_coverage_depth.smk"
+include: "base_coverage.smk"

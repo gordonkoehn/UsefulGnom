@@ -1,7 +1,7 @@
 """Implements 
     1) calculating basecnt coverage depth,
     2) total coverage depth and 
-    3) computing frequency matrix+calculating mutations statistics.
+    3) computing frequency matrix + calculating mutations statistics.
 """
 
 import logging
@@ -44,7 +44,7 @@ rule basecnt_coverage_depth:
             basecnt_fps=basecnt_tsv_dir,
             timeline_file_dir=input.timeline,
             datamatrix_dir=input.datamatrix,
-            output_file=output.output_file
+            output_file=output.output_file,
             startdate = params.startdate,
             enddate = params.enddate,
             location = params.location
