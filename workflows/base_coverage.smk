@@ -2,6 +2,10 @@
     1) calculating basecnt coverage depth >> rule basecnt_coverage_depth,
     2) total coverage depth and 
     3) computing frequency matrix + calculating mutations statistics.
+
+    Credits:
+        - core code: @AugusteRi (arimaite@ethz.ch)
+        - implementation: @koehng (koehng@ethz.ch)
 """
 
 import logging
