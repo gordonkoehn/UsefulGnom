@@ -14,6 +14,10 @@ import glob
 import usefulgnom as ug
 
 from pathlib import Path
+import pandas as pd
+from datetime import timedelta
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 ###################################
@@ -94,16 +98,12 @@ rule mutation_statistics:
         basecnt_coverage = output_fp_basecnt,
         total_coverage = output_fp_total
     output:
-        heatmap = "/cluster/home/koehng/temp/mutstat/heatmapC23039G_G22599C.pdf"
-        lineplot = "/cluster/home/koehng/temp/mutstat/lineplotC23039G_G22599C.pdf"
-        frequency_data_matrix = "/cluster/home/koehng/temp/mutstat/frequency_data_matrix.csv"
+        heatmap = "/cluster/home/koehng/temp/mutstat/heatmapC23039G_G22599C.pdf",
+        lineplot = "/cluster/home/koehng/temp/mutstat/lineplotC23039G_G22599C.pdf",
+        frequency_data_matrix = "/cluster/home/koehng/temp/mutstat/frequency_data_matrix.csv",
         mutations_statistics = "/cluster/home/koehng/temp/mutstat/mutations_statistics_C23039G_G22599C.csv"
     run:
         # Median frequency with IQR
-        import pandas as pd
-        from datetime import timedelta
-        import matplotlib.pyplot as plt
-        import seaborn as sns
 
         # Compute mutation frequencies based on the
 
