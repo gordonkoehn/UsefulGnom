@@ -70,6 +70,11 @@ rule total_coverage_depth:
         timeline = timeline_fp
     output:
         output_file = output_fp_total
+    params:
+        startdate = "2024-01-01",
+        enddate = "2024-07-03",
+        location = "Zürich (ZH)",
+        # TODO: add protocol and subset params, see extract_sample_ID
     run:
         logging.info("Running total_coverage_depth")
         ug.analyze.run_total_coverage_depth(
@@ -77,4 +82,7 @@ rule total_coverage_depth:
             mutations_of_interest_fp=input.mutations_of_interest,
             timeline_file_dir=input.timeline,
             output_file=output.output_file
+            startdate = params.startdate,
+            enddate = params.enddate,
+            location = params.location
         )

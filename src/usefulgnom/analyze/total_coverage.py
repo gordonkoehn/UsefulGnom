@@ -8,6 +8,7 @@
 from usefulgnom.serialize import load_convert_total
 from usefulgnom.serialize.coverage import extract_sample_ID
 
+from datetime import datetime
 import pandas as pd
 import glob
 import re
@@ -48,7 +49,10 @@ def run_total_coverage_depth(
     mutations_of_interest_fp: str,
     timeline_file_dir: str,
     output_file: str,
-):
+    startdate: str = "2024-01-01",
+    enddate: str = "2024-07-03",
+    location: str = "Zürich (ZH)",
+) -> None:
     """
     Extract the coverage of the positions of interest from the coverage files.
 
@@ -58,6 +62,12 @@ def run_total_coverage_depth(
         mutations_of_interest_fp (str): Path to the mutations of interest file.
         timeline_file_dir (str): Path to the timeline file.
         output_file (str): Path to the output file.
+        startdate (str): Start date of the time period, default is 2024-01-01.
+        enddate (str): End date of the time period, default is 2024-07-03.
+        location (str): Location of the samples, default is Zürich (ZH).
+
+    Returns:
+        None
     """
 
     # Iterate over multiple coverage.tsv.gz files and take sample IDs, mutation
@@ -79,7 +89,11 @@ def run_total_coverage_depth(
     # get list of coverage.tsv.gz files in the input directory
     coverage_files = glob.glob(coverage_tsv_fps, recursive=True)
     # get samples_IDs from the specified location, time and sequencing protocol
-    sample_IDs = extract_sample_ID(timeline_file_dir)
+    startdatetime = datetime.strptime(startdate, "%Y-%m-%d")
+    enddatetime = datetime.strptime(enddate, "%Y-%m-%d")
+    sample_IDs = extract_sample_ID(
+        timeline_file_dir, startdatetime, enddatetime, location
+    )
     # get the position in the genome for which we want to find coverage
     position = extract_mutation_position(mutations_of_interest_fp)
     # record columns for df (one sample = one column of different mutations)
