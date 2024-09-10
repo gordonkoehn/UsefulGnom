@@ -81,7 +81,7 @@ rule total_coverage_depth:
             coverage_tsv_fps=total_coverage_dir,
             mutations_of_interest_fp=input.mutations_of_interest,
             timeline_file_dir=input.timeline,
-            output_file=output.output_file
+            output_file=output.output_file,
             startdate = params.startdate,
             enddate = params.enddate,
             location = params.location
