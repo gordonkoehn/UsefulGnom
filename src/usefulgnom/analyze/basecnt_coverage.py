@@ -6,7 +6,7 @@
 """
 
 from usefulgnom.serialize import load_convert_bnc
-from usefulgnom.serialize.coverage import extract_sample_ID
+from usefulgnom.serialize import extract_sample_ID
 
 
 from datetime import datetime
