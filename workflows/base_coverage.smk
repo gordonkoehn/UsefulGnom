@@ -106,6 +106,10 @@ rule mutation_statistics:
         logging.info("Running mutation_statistics")
         # Median frequency with IQR
 
+        ## Labels for the plots
+        location = "zurich"
+        date = "07_03"
+
         # Compute mutation frequencies based on the
 
         basecnt_coverage_csv = input.basecnt_coverage
