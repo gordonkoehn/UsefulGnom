@@ -66,14 +66,15 @@ rule total_coverage_depth:
     """ Calcultate the total coverage depth
     """ 
     input:
-        coverage_tsv_dir = total_coverage_dir,
+        mutations_of_interest = mutations_of_interest_dir,
         timeline = timeline_fp
     output:
         output_file = output_fp_total
     run:
         logging.info("Running total_coverage_depth")
         ug.analyze.run_total_coverage_depth(
-            coverage_tsv_dir=input.coverage_tsv_dir,
+            coverage_tsv_dir=total_coverage_dir,
+            datamatrix_dir=input.mutations_of_interest,
             timeline_file_dir=input.timeline,
             output_file=output.output_file
         )
