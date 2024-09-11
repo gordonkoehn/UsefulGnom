@@ -36,7 +36,6 @@ OUTDIR = "/cluster/home/koehng/temp/"
 ###################################
 
 
-
 rule basecnt_coverage_depth:
     """Generate matrix of coverage depth per base position
     """
@@ -282,8 +281,8 @@ rule mutation_statistics:
 
 
 rule mutation_statistics_Zürich_2024_07_03:
-    """" Run mutation_statistics for Zürich on and enddate 2024-07-03
-    """" 
+    """ Run mutation_statistics for Zürich on and enddate 2024-07-03
+    """ 
     input:
         OUTDIR + "Zürich (ZH)/lineplotC23039G_G22599C_Zürich (ZH)_2024-07-03.pdf",
         OUTDIR + "Zürich (ZH)/heatmapC23039G_G22599C_Zürich (ZH)_2024-07-03.pdf",
