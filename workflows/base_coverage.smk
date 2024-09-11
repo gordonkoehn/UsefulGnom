@@ -32,10 +32,11 @@ mutations_of_interest_dir = "/cluster/home/koehng/temp/mutations_of_interest.csv
 # timeline file of columns [sample, batch, reads, proto, location_code, date, location]
 timeline_fp = "/cluster/project/pangolin/work-vp-test/variants/timeline.tsv"
 #### Outputs
+OUTDIR = "/cluster/home/koehng/temp/"
 # for basecnt_coverage_depth
-output_fp_basecnt = "/cluster/home/koehng/temp/basecnt_coverage.csv"
+output_fp_basecnt = OUTDIR + "basecnt_coverage.csv"
 # for total_coverage_depth
-output_fp_total = "/cluster/home/koehng/temp/total_coverage.csv"
+output_fp_total =  OUTDIR + "total_coverage.csv"
 ###################################
 
 
@@ -101,10 +102,10 @@ rule mutation_statistics:
         location = "{location}",
         date = "{date}"
     output:
-        heatmap = "/cluster/home/koehng/temp/mutstat/{location}/heatmapC23039G_G22599C_{location}_{date}.pdf",
-        lineplot = "/cluster/home/koehng/temp/mutstat/{location}/lineplotC23039G_G22599C_{location}_{date}.pdf",
-        frequency_data_matrix = "/cluster/home/koehng/temp/mutstat/{location}/frequency_data_matrix_{location}_{date}.csv",
-        mutations_statistics = "/cluster/home/koehng/temp/mutstat/{location}/mutations_statistics_C23039G_G22599C_{location}_{date}.csv"
+        heatmap = OUTDIR + "mutstat/{location}/heatmapC23039G_G22599C_{location}_{date}.pdf",
+        lineplot = OUTDIR + "mutstat/{location}/lineplotC23039G_G22599C_{location}_{date}.pdf",
+        frequency_data_matrix = OUTDIR + "mutstat/{location}/frequency_data_matrix_{location}_{date}.csv",
+        mutations_statistics = OUTDIR + "mutstat/{location}/mutations_statistics_C23039G_G22599C_{location}_{date}.csv"
     run:
         logging.info("Running mutation_statistics")
         # Median frequency with IQR
@@ -286,4 +287,8 @@ rule mutation_statistics:
 
 rule mutation_statistics_Zürich_2024_07_03:
     input:
-        "/cluster/home/koehng/temp/mutstat/Zürich (ZH)/lineplotC23039G_G22599C_Zürich (ZH)_2024-07-03.pdf",
+        OUTDIR + "mutstat/Zürich (ZH)/lineplotC23039G_G22599C_Zürich (ZH)_2024-07-03.pdf",
+        OUTDIR + "mutstat/Zürich (ZH)/heatmapC23039G_G22599C_Zürich (ZH)_2024-07-03.pdf",
+        OUTDIR + "mutstat/Zürich (ZH)/frequency_data_matrix_Zürich (ZH)_2024-07-03.csv",
+        OUTDIR + "mutstat/Zürich (ZH)/mutations_statistics_C23039G_G22599C_Zürich (ZH)_2024-07-03.csv"
+
