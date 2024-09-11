@@ -97,18 +97,21 @@ rule mutation_statistics:
     input:
         basecnt_coverage = output_fp_basecnt,
         total_coverage = output_fp_total
+    params:
+        location = {location},
+        date = {date}
     output:
-        heatmap = "/cluster/home/koehng/temp/mutstat/heatmapC23039G_G22599C.pdf",
-        lineplot = "/cluster/home/koehng/temp/mutstat/lineplotC23039G_G22599C.pdf",
-        frequency_data_matrix = "/cluster/home/koehng/temp/mutstat/frequency_data_matrix.csv",
-        mutations_statistics = "/cluster/home/koehng/temp/mutstat/mutations_statistics_C23039G_G22599C.csv"
+        heatmap = "/cluster/home/koehng/temp/mutstat/{location}/heatmapC23039G_G22599C_{location}_{date}.pdf",
+        lineplot = "/cluster/home/koehng/temp/mutstat/{location}/lineplotC23039G_G22599C_{location}_{date}.pdf",
+        frequency_data_matrix = "/cluster/home/koehng/temp/mutstat/{location}/frequency_data_matrix_{location}_{date}.csv",
+        mutations_statistics = "/cluster/home/koehng/temp/mutstat/{location}/mutations_statistics_C23039G_G22599C_{location}_{date}.csv"
     run:
         logging.info("Running mutation_statistics")
         # Median frequency with IQR
 
         ## Labels for the plots
-        location = "zurich"
-        date = "07_03"
+        location = params.location
+        date = params.date
 
         # Compute mutation frequencies based on the
 
@@ -279,3 +282,8 @@ rule mutation_statistics:
             index=False,
         )
         logging.info("Saved mutation statistics")
+
+
+rule mutation_statistics:
+    input:
+        "/cluster/home/koehng/temp/mutstat/Zürich (ZH)/lineplotC23039G_G22599C_Zürich (ZH)_2024-07-03.pdf",
