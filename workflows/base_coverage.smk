@@ -45,7 +45,6 @@ rule basecnt_coverage_depth:
     """Generate matrix of coverage depth per base position
     """
     wildcard_constraints:
-        location = "[a-zA-Z0-9 ]+",
         endate = "[0-9]{4}-[0-9]{2}-[0-9]{2}"
     input:
         mutations_of_interest = mutations_of_interest_dir,
@@ -74,7 +73,6 @@ rule total_coverage_depth:
     """ Calcultate the total coverage depth
     """ 
     wildcard_constraints:
-        location = "[a-zA-Z0-9 ]+",
         endate = "[0-9]{4}-[0-9]{2}-[0-9]{2}"
     input:
         mutations_of_interest = mutations_of_interest_dir,
