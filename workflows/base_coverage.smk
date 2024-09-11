@@ -52,7 +52,7 @@ rule basecnt_coverage_depth:
     params:
         startdate = "2024-01-01",
         enddate = "2024-07-03",
-        location = {location},
+        location = "{location}",
         # TODO: add protocol and subset params, see extract_sample_ID
     run:
         logging.info("Running basecnt_coverage_depth")
