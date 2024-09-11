@@ -48,10 +48,10 @@ rule basecnt_coverage_depth:
         mutations_of_interest = mutations_of_interest_dir,
         timeline = timeline_fp
     output:
-        output_file = OUTDIR + "/{location}/mut_base_coverage_{location}_{date}.csv"
+        output_file = OUTDIR + "/{location}/mut_base_coverage_{location}_{endate}.csv"
     params:
         startdate = "2024-01-01",
-        enddate = "2024-07-03",
+        enddate = "{endate}",
         location = "{location}",
         # TODO: add protocol and subset params, see extract_sample_ID
     run:
@@ -74,11 +74,11 @@ rule total_coverage_depth:
         mutations_of_interest = mutations_of_interest_dir,
         timeline = timeline_fp
     output:
-        output_file = output_fp_total
+        output_file = OUTDIR + "/{location}/mut_base_coverage_{location}_{endate}.csv"
     params:
         startdate = "2024-01-01",
-        enddate = "2024-07-03",
-        location = "Zürich (ZH)",
+        enddate = "{endate}",
+        location = "{location}",
         # TODO: add protocol and subset params, see extract_sample_ID
     run:
         logging.info("Running total_coverage_depth")
@@ -96,23 +96,23 @@ rule mutation_statistics:
     """Compute mutation frequencies from the basecnt and general coverages and report the statistics
     """
     input:
-        basecnt_coverage = OUTDIR + "/{location}/mut_base_coverage_{location}_{date}.csv",
-        total_coverage = output_fp_total
+        basecnt_coverage = OUTDIR + "/{location}/mut_base_coverage_{location}_{endate}.csv",
+        total_coverage = OUTDIR + "/{location}/mut_base_coverage_{location}_{endate}.csv"
     params:
         location = "{location}",
-        date = "{date}"
+        endate = "{endate}"
     output:
-        heatmap = OUTDIR + "mutstat/{location}/heatmapC23039G_G22599C_{location}_{date}.pdf",
-        lineplot = OUTDIR + "mutstat/{location}/lineplotC23039G_G22599C_{location}_{date}.pdf",
-        frequency_data_matrix = OUTDIR + "mutstat/{location}/frequency_data_matrix_{location}_{date}.csv",
-        mutations_statistics = OUTDIR + "mutstat/{location}/mutations_statistics_C23039G_G22599C_{location}_{date}.csv"
+        heatmap = OUTDIR + "{location}/heatmapC23039G_G22599C_{location}_{endate}.pdf",
+        lineplot = OUTDIR + "{location}/lineplotC23039G_G22599C_{location}_{endate}.pdf",
+        frequency_data_matrix = OUTDIR + "{location}/frequency_data_matrix_{location}_{endate}.csv",
+        mutations_statistics = OUTDIR + "{location}/mutations_statistics_C23039G_G22599C_{location}_{endate}.csv"
     run:
         logging.info("Running mutation_statistics")
         # Median frequency with IQR
 
         ## Labels for the plots
         location = params.location
-        date = params.date
+        endate = params.endate
 
         # Compute mutation frequencies based on the
 
@@ -287,8 +287,8 @@ rule mutation_statistics:
 
 rule mutation_statistics_Zürich_2024_07_03:
     input:
-        OUTDIR + "mutstat/Zürich (ZH)/lineplotC23039G_G22599C_Zürich (ZH)_2024-07-03.pdf",
-        OUTDIR + "mutstat/Zürich (ZH)/heatmapC23039G_G22599C_Zürich (ZH)_2024-07-03.pdf",
-        OUTDIR + "mutstat/Zürich (ZH)/frequency_data_matrix_Zürich (ZH)_2024-07-03.csv",
-        OUTDIR + "mutstat/Zürich (ZH)/mutations_statistics_C23039G_G22599C_Zürich (ZH)_2024-07-03.csv"
+        OUTDIR + "Zürich (ZH)/lineplotC23039G_G22599C_Zürich (ZH)_2024-07-03.pdf",
+        OUTDIR + "Zürich (ZH)/heatmapC23039G_G22599C_Zürich (ZH)_2024-07-03.pdf",
+        OUTDIR + "Zürich (ZH)/frequency_data_matrix_Zürich (ZH)_2024-07-03.csv",
+        OUTDIR + "Zürich (ZH)/mutations_statistics_C23039G_G22599C_Zürich (ZH)_2024-07-03.csv"
 
