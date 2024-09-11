@@ -34,7 +34,7 @@ timeline_fp = "/cluster/project/pangolin/work-vp-test/variants/timeline.tsv"
 #### Outputs
 OUTDIR = "/cluster/home/koehng/temp/"
 # for basecnt_coverage_depth
-output_fp_basecnt = OUTDIR + "basecnt_coverage.csv"
+#output_fp_basecnt = OUTDIR + "basecnt_coverage.csv"
 # for total_coverage_depth
 output_fp_total =  OUTDIR + "total_coverage.csv"
 ###################################
@@ -48,11 +48,11 @@ rule basecnt_coverage_depth:
         mutations_of_interest = mutations_of_interest_dir,
         timeline = timeline_fp
     output:
-        output_file = output_fp_basecnt
+        output_file = OUTDIR + "/{location}/mut_base_coverage_{location}_{date}.csv"
     params:
         startdate = "2024-01-01",
         enddate = "2024-07-03",
-        location = "Zürich (ZH)",
+        location = {location},
         # TODO: add protocol and subset params, see extract_sample_ID
     run:
         logging.info("Running basecnt_coverage_depth")
@@ -96,7 +96,7 @@ rule mutation_statistics:
     """Compute mutation frequencies from the basecnt and general coverages and report the statistics
     """
     input:
-        basecnt_coverage = output_fp_basecnt,
+        basecnt_coverage = OUTDIR + "/{location}/mut_base_coverage_{location}_{date}.csv",
         total_coverage = output_fp_total
     params:
         location = "{location}",
