@@ -284,6 +284,6 @@ rule mutation_statistics:
         logging.info("Saved mutation statistics")
 
 
-rule mutation_statistics:
+rule mutation_statistics_Zürich_2024_07_03:
     input:
         "/cluster/home/koehng/temp/mutstat/Zürich (ZH)/lineplotC23039G_G22599C_Zürich (ZH)_2024-07-03.pdf",
