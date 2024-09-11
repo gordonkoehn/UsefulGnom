@@ -98,8 +98,8 @@ rule mutation_statistics:
         basecnt_coverage = output_fp_basecnt,
         total_coverage = output_fp_total
     params:
-        location = {location},
-        date = {date}
+        location = "{location}",
+        date = "{date}"
     output:
         heatmap = "/cluster/home/koehng/temp/mutstat/{location}/heatmapC23039G_G22599C_{location}_{date}.pdf",
         lineplot = "/cluster/home/koehng/temp/mutstat/{location}/lineplotC23039G_G22599C_{location}_{date}.pdf",
