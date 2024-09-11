@@ -51,7 +51,7 @@ rule basecnt_coverage_depth:
         mutations_of_interest = mutations_of_interest_dir,
         timeline = timeline_fp
     output:
-        output_file = OUTDIR + "/{location}/mut_base_coverage_{location}_{endate}.csv"
+        output_file = OUTDIR + "{location}/mut_base_coverage_{location}_{endate}.csv"
     params:
         startdate = "2024-01-01",
         enddate = "{endate}",
@@ -80,7 +80,7 @@ rule total_coverage_depth:
         mutations_of_interest = mutations_of_interest_dir,
         timeline = timeline_fp
     output:
-        output_file = OUTDIR + "/{location}/mut_base_coverage_{location}_{endate}.csv"
+        output_file = OUTDIR + "{location}/mut_base_coverage_{location}_{endate}.csv"
     params:
         startdate = "2024-01-01",
         enddate = "{endate}",
@@ -102,8 +102,8 @@ rule mutation_statistics:
     """Compute mutation frequencies from the basecnt and general coverages and report the statistics
     """
     input:
-        basecnt_coverage = OUTDIR + "/{location}/mut_base_coverage_{location}_{endate}.csv",
-        total_coverage = OUTDIR + "/{location}/mut_base_coverage_{location}_{endate}.csv"
+        basecnt_coverage = OUTDIR + "{location}/mut_base_coverage_{location}_{endate}.csv",
+        total_coverage = OUTDIR + "{location}/mut_base_coverage_{location}_{endate}.csv"
     params:
         location = "{location}",
         endate = "{endate}"
