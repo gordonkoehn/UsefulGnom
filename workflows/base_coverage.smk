@@ -44,8 +44,6 @@ output_fp_total =  OUTDIR + "total_coverage.csv"
 rule basecnt_coverage_depth:
     """Generate matrix of coverage depth per base position
     """
-    wildcard_constraints:
-        endate = "[0-9]{4}-[0-9]{2}-[0-9]{2}"
     input:
         mutations_of_interest = mutations_of_interest_dir,
         timeline = timeline_fp
@@ -72,13 +70,11 @@ rule basecnt_coverage_depth:
 rule total_coverage_depth:
     """ Calcultate the total coverage depth
     """ 
-    wildcard_constraints:
-        endate = "[0-9]{4}-[0-9]{2}-[0-9]{2}"
     input:
         mutations_of_interest = mutations_of_interest_dir,
         timeline = timeline_fp
     output:
-        output_file = OUTDIR + "{location}/mut_base_coverage_{location}_{endate}.csv"
+        output_file = OUTDIR + "{location}/mut_total_coverage_{location}_{endate}.csv"
     params:
         startdate = "2024-01-01",
         enddate = "{endate}",
@@ -101,7 +97,7 @@ rule mutation_statistics:
     """
     input:
         basecnt_coverage = OUTDIR + "{location}/mut_base_coverage_{location}_{endate}.csv",
-        total_coverage = OUTDIR + "{location}/mut_base_coverage_{location}_{endate}.csv"
+        total_coverage = OUTDIR + "{location}/mut_total_coverage_{location}_{endate}.csv"
     params:
         location = "{location}",
         endate = "{endate}"
