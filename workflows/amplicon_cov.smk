@@ -14,12 +14,12 @@ rule relative_amplicon_coverage:
         sample_list = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples.tsv",
         samples = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples"
     output:
-        output_dir = output_dir + "/cov_heatmap.pdf"
+        output_dir = output_dir + "cov_heatmap.pdf"
     shell:
         """
         python ../scripts/amplicon_covs.py \
             -s {input.sample_list} \
             -f {input.samples} \
-            -r articV3primers.bed \
+            -r {primers_fp} \
             -o {output.output_dir}
         """
