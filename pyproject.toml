@@ -4,13 +4,14 @@ version = "0.1.0"
 description = "Viral Genomic Utilities"
 authors = ["Gordon Julian Koehn <gordon.koehn@dbsse.ethz.ch>"]
 readme = "README.md"
+packages = [{include = "usefulgnom", from = "src"}]
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11.2"
 pandas = "^2.2.2"
 matplotlib = "^3.9.2"
 seaborn = "^0.13.2"
-
+pandas-stubs = "^2.2.2.240807"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.1"
@@ -25,6 +26,7 @@ mkdocs-material = "^9.1.6"
 mkdocstrings = {extras = ["python"], version = "^0.21.2"}
 mkdocs-gen-files = "^0.4.0"
 mkdocs-literate-nav = "^0.6.0"
+setuptools = "^74.1.2"
 
 [tool.coverage.report]
 fail_under = 85.0

@@ -1,0 +1,12 @@
+name: usefulgnom
+# Conda/Mamba environment file,
+# to be used when running the snakemake pipeline, 
+# see workflow/README.md
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11.2
+  - snakemake=8.18.2
+  - poetry=1.8.3

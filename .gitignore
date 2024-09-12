@@ -1,2 +1,5 @@
 .DS_Store
 poetry.lock
+.vscode/
+__pycache__/
+*.pyc
