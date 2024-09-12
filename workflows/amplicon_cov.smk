@@ -75,4 +75,4 @@ rule get_coverage_for_batch:
     params:
         batch = "20240705_AAFH52MM5"
     input:
-        samples = output_dir + {params.batch} + "/cov_heatmap.pdf"
+        samples = f"{output_dir}{{params.batch}}/cov_heatmap.pdf"
