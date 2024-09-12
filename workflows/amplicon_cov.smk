@@ -59,13 +59,13 @@ rule relative_amplicon_coverage_per_batch:
 
 
 rule get_samples_per_batch:
-    input:
-        samples_list = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples.tsv"
-    output:
-        samples_batch = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples{batch}.tsv"
     params:
         # TODO: make this a config to be passed to the workflow viw the command line
         batch = "20210122_HY53JDRXX"
+    input:
+        samples_list = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples.tsv"
+    output:
+        samples_batch = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples{params.batch}.tsv"
     shell:
         """
         grep {params.batch} {input.samples_list} > {output.samples_batch}
