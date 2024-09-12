@@ -65,7 +65,7 @@ rule get_samples_per_batch:
         samples_batch = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples{batch}.tsv"
     shell:
         """
-        grep {params.batch} {input.samples_list} > {output.samples_batch}
+        grep {batch} {input.samples_list} > {output.samples_batch}
         """
 
 rule get_coverage_for_batch:
