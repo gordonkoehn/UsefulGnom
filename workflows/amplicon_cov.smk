@@ -18,8 +18,8 @@ rule relative_amplicon_coverage:
     shell:
         f"""
         python ../scripts/amplicon_covs.py -pv /
-            -s {sample_list} /
-            -f {samples} /
+            -s {input.sample_list} /
+            -f {input.samples} /
             -r articV3primers.bed /
-            -o {output_dir} /
+            -o {output.output_dir} /
         """
