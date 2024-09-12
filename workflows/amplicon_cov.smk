@@ -72,7 +72,5 @@ rule get_coverage_for_batch:
     """
     Calculate the relative amplicon coverage for all samples in the batch specific samples{batch}.tsv file.
     """
-    params:
-        batch = "20240705_AAFH52MM5"
     input:
-        samples = f"{output_dir}{{params.batch}}/cov_heatmap.pdf"
+        samples = f"{output_dir}20240705_AAFH52MM5/cov_heatmap.pdf"
