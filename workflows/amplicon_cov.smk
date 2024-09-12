@@ -13,7 +13,7 @@ rule relative_amplicon_coverage:
         sample_list = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples.tsv",
         samples = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples"
     output:
-        heatmap = output_dir + "/cov_heatmap.pdf"
+        heatmap = output_dir + "cov_heatmap.pdf"
     params:
         primers_fp ="../resources/amplicon_cov/articV3primers.bed",
         output_dir = output_dir
@@ -24,5 +24,5 @@ rule relative_amplicon_coverage:
             -s {input.sample_list} \
             -f {input.samples} \
             -r {params.primers_fp} \
-            -o {output.heatmap}
+            -o {params.output_dir}
         """
