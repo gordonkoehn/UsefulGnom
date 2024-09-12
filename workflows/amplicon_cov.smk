@@ -24,5 +24,6 @@ rule relative_amplicon_coverage:
             -s {input.sample_list} \
             -f {input.samples} \
             -r {params.primers_fp} \
-            -o {params.output_dir}
+            -o {params.output_dir} \
+            -p 
         """
