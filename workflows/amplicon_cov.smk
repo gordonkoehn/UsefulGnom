@@ -5,7 +5,6 @@
 ### Environment
 ##################################################
 output_dir = "/cluster/home/koehng/temp/amplicon_cov/20210122out/"
-primers_fp = "../resources/amplicon_cov/articV3primers.bed"
 ##################################################
 
 
@@ -14,12 +13,16 @@ rule relative_amplicon_coverage:
         sample_list = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples.tsv",
         samples = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples"
     output:
-        output_dir = output_dir + "cov_heatmap.pdf"
+        heatmap = output_dir + "/cov_heatmap.pdf"
+    params:
+        primers_fp ="../resources/amplicon_cov/articV3primers.bed",
+        output_dir = output_dir
     shell:
         """
+        mkdir -p {params.output_dir}
         python ../scripts/amplicon_covs.py \
             -s {input.sample_list} \
             -f {input.samples} \
-            -r {primers_fp} \
-            -o {output.output_dir}
+            -r {params.primers_fp} \
+            -o {output.heatmap}
         """
