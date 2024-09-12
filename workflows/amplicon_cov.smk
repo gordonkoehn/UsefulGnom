@@ -59,14 +59,18 @@ rule relative_amplicon_coverage_per_batch:
 
 
 rule get_samples_per_batch:
-    params:
-        # TODO: make this a config to be passed to the workflow viw the command line
-        batch = "20210122_HY53JDRXX"
     input:
         samples_list = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples.tsv"
     output:
-        samples_batch = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples{params.batch}.tsv"
+        samples_batch = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples{batch}.tsv"
     shell:
         """
         grep {params.batch} {input.samples_list} > {output.samples_batch}
         """
+
+rule get_coverage_for_batch:
+    """
+    Calculate the relative amplicon coverage for all samples in the batch specific samples{batch}.tsv file.
+    """
+    input:
+        samples = output_dir + "{batch}/cov_heatmap.pdf"
