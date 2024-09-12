@@ -1,4 +1,4 @@
 """Snakemake file defining the workflows"""
 
 include: "base_coverage.smk"
-include: "amplicon_cove.smk"
+include: "amplicon_cov.smk"
