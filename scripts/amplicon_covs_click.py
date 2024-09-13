@@ -329,6 +329,8 @@ def main(
             click.echo("Outputting plots.")
         make_cov_heatmap(all_covs, os.path.join(outdir, "cov_heatmap.pdf"))
 
+        print("Making median cov hist")
+
         make_median_cov_hist(all_covs, os.path.join(outdir, "median_cov_hist.pdf"))
         make_median_coverage_barplot(
             all_covs, os.path.join(outdir, "median_coverage_barplot.pdf")

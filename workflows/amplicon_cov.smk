@@ -59,7 +59,8 @@ rule relative_amplicon_coverage_per_batch:
             -f {input.samples} \
             -r {params.primers_fp} \
             -o {params.output_dir} \
-            -p 
+            -p \
+            -v 
         """
 
 
