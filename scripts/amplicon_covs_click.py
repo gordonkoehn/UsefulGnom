@@ -195,6 +195,9 @@ def make_cov_heatmap(cov_df, output=None):
     plt.xlabel("amplicon")
     plt.ylabel("sample")
     plt.title("Samples {}:{}".format(split_at, cov_df.shape[0] - 1))
+
+    print("Saving heatmap")
+
     if output is not None:
         plt.savefig(output)
 
