@@ -200,6 +200,7 @@ def make_cov_heatmap(cov_df, output=None):
 
     if output is not None:
         plt.savefig(output)
+        click.echo(f"Saved heatmap to {output}")
 
 
 def make_median_cov_hist(cov_df, output=None):
