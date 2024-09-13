@@ -327,6 +327,7 @@ def main(
     if makeplots:
         if verbose:
             click.echo("Outputting plots.")
+
         make_cov_heatmap(all_covs, os.path.join(outdir, "cov_heatmap.pdf"))
 
         print("Making median cov hist")
