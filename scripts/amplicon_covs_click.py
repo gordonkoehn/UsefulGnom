@@ -196,8 +196,6 @@ def make_cov_heatmap(cov_df, output=None):
     plt.ylabel("sample")
     plt.title("Samples {}:{}".format(split_at, cov_df.shape[0] - 1))
 
-    click.echo("Saving heatmap")
-
     if output is not None:
         plt.savefig(output)
         click.echo(f"Saved heatmap to {output}")
@@ -215,7 +213,6 @@ def make_median_cov_hist(cov_df, output=None):
     plt.xlabel("density")
     plt.axhline(1 / 98, linestyle="--", color="black")
 
-    click.echo("Saving histogram")
     if output is not None:
         plt.savefig(output)
         click.echo(f"Saved histogram to {output}")
@@ -237,6 +234,7 @@ def make_median_coverage_barplot(cov_df, output=None):
 
     if output is not None:
         plt.savefig(output)
+        click.echo(f"Saved median coverage barplot to {output}")
 
 
 @click.command()
