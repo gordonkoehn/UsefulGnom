@@ -43,11 +43,11 @@ rule relative_amplicon_coverage_per_batch:
         samples = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples"
     output:
         heatmap = output_dir + "{batch}/cov_heatmap.pdf",
-        median_cov_hist = output_dir + "{batch}/median_cov_hist.pdf",
-        make_median_coverage_barplot = output_dir + "{batch}/make_median_coverage_barplot.pdf",
-        cov_heatmap_norm = output_dir + "{batch}/cov_heatmap_norm.pdf",
-        median_cov_hist_norm = output_dir + "{batch}/median_cov_hist_norm.pdf",
-        median_coverage_barplot_norm = output_dir + "{batch}/median_coverage_barplot_norm.pdf"
+     #   median_cov_hist = output_dir + "{batch}/median_cov_hist.pdf",
+     #   make_median_coverage_barplot = output_dir + "{batch}/make_median_coverage_barplot.pdf",
+     #   cov_heatmap_norm = output_dir + "{batch}/cov_heatmap_norm.pdf",
+     #   median_cov_hist_norm = output_dir + "{batch}/median_cov_hist_norm.pdf",
+     #   median_coverage_barplot_norm = output_dir + "{batch}/median_coverage_barplot_norm.pdf"
     params:
         primers_fp ="../resources/amplicon_cov/articV3primers.bed",
         output_dir = output_dir + "{batch}/"
