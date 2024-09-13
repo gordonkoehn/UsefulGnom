@@ -203,14 +203,10 @@ def make_cov_heatmap(cov_df, output=None):
 
 def make_median_cov_hist(cov_df, output=None):
     """Make histogram of median coverage."""
-    click.echo("Computing median coverage histogram")
+    # FIXME (gordonkoehn):
+    # median computation causes performance a crash for test data
+    median = np.nanmedian(cov_df.iloc[:, 1:].values, axis=0)
 
-    try:
-        click.echo("Computing median coverage - what the heck is this?")
-        median = np.nanmedian(cov_df.iloc[:, 1:].values, axis=0)
-    except Exception as e:
-        click.echo(f"Error computing median coverage: {str(e)}")
-        return
     plt.figure(figsize=(12, 6))
     sns.histplot(y=median, binwidth=0.002, stat="density")
     plt.title("Median coverage histogram")
@@ -220,7 +216,6 @@ def make_median_cov_hist(cov_df, output=None):
 
     if output is not None:
         plt.savefig(output)
-        click.echo(f"Saved histogram to {output}")
 
 
 def make_median_coverage_barplot(cov_df, output=None):
@@ -341,38 +336,25 @@ def main(
 
         make_cov_heatmap(all_covs, os.path.join(outdir, "cov_heatmap.pdf"))
 
-        try:
-            make_median_cov_hist(all_covs, os.path.join(outdir, "median_cov_hist.pdf"))
-        except Exception as e:
-            click.echo(f"Error generating median_cov_hist plot: {str(e)}")
+        # TODO (gordonkoehn):
+        # Clarify the purpose of these plots, and if they are still needed.
+        #
+        # make_median_cov_hist(
+        #       all_covs, os.path.join(outdir, "median_cov_hist.pdf")
+        # )
+        #    make_median_coverage_barplot(
+        #        all_covs, os.path.join(outdir, "median_coverage_barplot.pdf")
+        #    )
+        #    make_cov_heatmap(
+        #        all_covs_frac, os.path.join(outdir, "cov_heatmap_norm.pdf")
+        #    )
+        #    make_median_cov_hist(
+        #        all_covs_frac, os.path.join(outdir, "median_cov_hist_norm.pdf")
+        #    )
 
-        try:
-            make_median_coverage_barplot(
-                all_covs, os.path.join(outdir, "median_coverage_barplot.pdf")
-            )
-        except Exception as e:
-            click.echo(f"Error generating median_coverage_barplot plot: {str(e)}")
-
-        try:
-            make_cov_heatmap(
-                all_covs_frac, os.path.join(outdir, "cov_heatmap_norm.pdf")
-            )
-        except Exception as e:
-            click.echo(f"Error generating cov_heatmap_norm plot: {str(e)}")
-
-        try:
-            make_median_cov_hist(
-                all_covs_frac, os.path.join(outdir, "median_cov_hist_norm.pdf")
-            )
-        except Exception as e:
-            click.echo(f"Error generating median_cov_hist_norm plot: {str(e)}")
-
-        try:
-            make_median_coverage_barplot(
-                all_covs_frac, os.path.join(outdir, "median_coverage_barplot_norm.pdf")
-            )
-        except Exception as e:
-            click.echo(f"Error generating median_coverage_barplot_norm plot: {str(e)}")
+        #    make_median_coverage_barplot(
+        #        all_covs_frac, os.path.join(outdir, "median_coverage_barplot_norm.pdf")
+        #    )
 
 
 if __name__ == "__main__":
