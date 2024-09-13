@@ -205,6 +205,7 @@ def make_cov_heatmap(cov_df, output=None):
 
 def make_median_cov_hist(cov_df, output=None):
     """Make histogram of median coverage."""
+    click.echo("Computing median coverage histogram")
     median = np.nanmedian(cov_df.iloc[:, 1:].values, axis=0)
 
     plt.figure(figsize=(12, 6))
@@ -214,8 +215,10 @@ def make_median_cov_hist(cov_df, output=None):
     plt.xlabel("density")
     plt.axhline(1 / 98, linestyle="--", color="black")
 
+    click.echo("Saving histogram")
     if output is not None:
         plt.savefig(output)
+        click.echo(f"Saved histogram to {output}")
 
 
 def make_median_coverage_barplot(cov_df, output=None):
@@ -335,7 +338,7 @@ def main(
 
         make_cov_heatmap(all_covs, os.path.join(outdir, "cov_heatmap.pdf"))
 
-        # make_median_cov_hist(all_covs, os.path.join(outdir, "median_cov_hist.pdf"))
+        make_median_cov_hist(all_covs, os.path.join(outdir, "median_cov_hist.pdf"))
         # make_median_coverage_barplot(
         #     all_covs, os.path.join(outdir, "median_coverage_barplot.pdf")
         # )
