@@ -36,6 +36,8 @@ import re
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from pathlib import Path
+
 from typing import Optional
 
 
@@ -62,7 +64,7 @@ def safe_regex_search(pattern: str, text: str, group: int = 1) -> Optional[str]:
     return match.group(group) if match else None
 
 
-def load_bedfile(bed: str) -> pd.DataFrame:
+def load_bedfile(bed: Path) -> pd.DataFrame:
     """Load bedfile and parse it."""
     bedfile = pd.read_table(bed, header=None)
 
@@ -234,34 +236,46 @@ def make_median_coverage_barplot(cov_df, output=None):
     "-r",
     "--bedfile-addr",
     required=True,
-    type=click.Path(exists=True),
+    type=click.Path(exists=True, path_type=Path),
     help="Bedfile of the articV3 primers.",
 )
 @click.option(
     "-s",
     "--samp-file",
     default="/cluster/project/pangolin/working/samples.tsv",
-    type=click.Path(exists=True),
+    type=click.Path(exists=True, path_type=Path),
     help="TSV file like samples.tsv.",
 )
 @click.option(
     "-f",
     "--samp-path",
     default="/cluster/project/pangolin/working/samples",
-    type=click.Path(exists=True),
+    type=click.Path(exists=True, path_type=Path),
     help="Main path to samples.",
 )
 @click.option(
-    "-o", "--outdir", default=os.getcwd(), type=click.Path(), help="Output directory."
+    "-o",
+    "--outdir",
+    default=os.getcwd(),
+    type=click.Path(exists=True, path_type=Path),
+    help="Output directory.",
 )
 @click.option("-p", "--makeplots", is_flag=True, help="Output plots.")
 @click.option("-v", "--verbose", is_flag=True, help="Verbose output.")
-def main(bedfile_addr, samp_file, samp_path, outdir, makeplots, verbose):
+def main(
+    bedfile_addr: Path,
+    samp_file: Path,
+    samp_path: Path,
+    outdir: Path,
+    makeplots,
+    verbose,
+):
     """
     Compute per amplicon relative coverage for a batch of samples.
     """
-    if not os.path.exists(outdir):
-        os.makedirs(outdir)
+    outdir = Path(outdir)  # Ensure outdir is a Path object
+    if not outdir.exists():
+        outdir.mkdir(parents=True, exist_ok=True)
 
     if verbose:
         click.echo("Loading primers bedfile.")
@@ -315,13 +329,17 @@ def main(bedfile_addr, samp_file, samp_path, outdir, makeplots, verbose):
             click.echo("Outputting plots.")
         make_cov_heatmap(all_covs, os.path.join(outdir, "cov_heatmap.pdf"))
 
-        make_median_cov_hist(all_covs, outdir + "/median_cov_hist.pdf")
-        make_median_coverage_barplot(all_covs, outdir + "/median_coverage_barplot.pdf")
-
-        make_cov_heatmap(all_covs_frac, outdir + "/cov_heatmap_norm.pdf")
-        make_median_cov_hist(all_covs_frac, outdir + "/median_cov_hist_norm.pdf")
+        make_median_cov_hist(all_covs, os.path.join(outdir, "median_cov_hist.pdf"))
         make_median_coverage_barplot(
-            all_covs_frac, outdir + "/median_coverage_barplot_norm.pdf"
+            all_covs, os.path.join(outdir, "median_coverage_barplot.pdf")
+        )
+
+        make_cov_heatmap(all_covs_frac, os.path.join(outdir, "cov_heatmap_norm.pdf"))
+        make_median_cov_hist(
+            all_covs_frac, os.path.join(outdir, "median_cov_hist_norm.pdf")
+        )
+        make_median_coverage_barplot(
+            all_covs_frac, os.path.join(outdir, "median_coverage_barplot_norm.pdf")
         )
 
 
