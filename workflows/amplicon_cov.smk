@@ -81,6 +81,6 @@ rule get_coverage_for_batch:
         samples = f"{output_dir}20240705_AAFH52MM5/cov_heatmap.pdf",
         median_cov_hist = f"{output_dir}20240705_AAFH52MM5/median_cov_hist.pdf",
         make_median_coverage_barplot = f"{output_dir}20240705_AAFH52MM5/make_median_coverage_barplot.pdf",
-        cov_heatmap_norm = output_dir + f"{output_dir}20240705_AAFH52MM5/cov_heatmap_norm.pdf",
-        median_cov_hist_norm = output_dir + f"{output_dir}20240705_AAFH52MM5/median_cov_hist_norm.pdf",
+        cov_heatmap_norm = f"{output_dir}20240705_AAFH52MM5/cov_heatmap_norm.pdf",
+        median_cov_hist_norm =  f"{output_dir}20240705_AAFH52MM5/median_cov_hist_norm.pdf",
         median_coverage_barplot_norm = f"{output_dir}20240705_AAFH52MM5/median_coverage_barplot_norm.pdf"
