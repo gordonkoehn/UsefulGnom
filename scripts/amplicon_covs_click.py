@@ -1,3 +1,33 @@
+"""
+Compute per amplicon relative coverage for a batch of samples.
+
+It outputs a .csv with samples in the rows, first column is sample name and 
+98 other columns are amplicons.  It needs a bedfile of primers, a .tsv to list 
+the samples (like `/cluster/project/pangolin/working/samples.tsv`) and a 
+directory where to find the aligned samples 
+(like `/cluster/project/pangolin/working/samples/`).  
+Optionally outputs plots.
+
+Bedfile primers may be found at: eg. from: 
+https://raw.githubusercontent.com/artic-network/artic-ncov2019/master/
+primer_schemes/nCoV-2019/V3/nCoV-2019.bed
+
+Usage:
+If we want to analyze coverage of samples in batch HY53JDRXX,
+with primers info in 'articV3primers.bed', we first need to create a tsv 
+list of samples:
+
+```grep 20210122_HY53JDRXX /cluster/project/pangolin/working/samples.tsv \
+    > samples20210122_HY53JDRXX.tsv```
+
+Then to compute coverages while plotting and with verbose, outputting into \
+    'samples20210122_HY53JDRXX' directory:
+
+```python ./amplicon_covs.py -pv -s samples20210122_HY53JDRXX.tsv \
+    -r articV3primers.bed -o samples20210122_HY53JDRXX/```
+                        
+"""
+
 import click
 import numpy as np
 import pandas as pd
@@ -8,6 +38,7 @@ import seaborn as sns
 
 
 def get_samples_paths(main_samples_path, samplestsv):
+    """Get list of paths to coverage files given from a samples.tsv list file."""
     sam_paths_list = []
     with open(samplestsv, "r") as f:
         for line in f:
@@ -23,7 +54,8 @@ def get_samples_paths(main_samples_path, samplestsv):
     return sam_paths_list
 
 
-def load_bedfile(bed):
+def load_bedfile(bed) -> pd.DataFrame:
+    """Load bedfile and parse it."""
     bedfile = pd.read_table(bed, header=None)
     bedfile["sense"] = [re.search("(LEFT|RIGHT)", i).group(1) for i in bedfile[3]]
     bedfile["primer_num"] = [
@@ -37,6 +69,7 @@ def load_bedfile(bed):
 
 
 def make_amplicons_df(bedfile):
+    """From primer info in bedfile create a dataframe with amplicon info."""
     amplicons = []
     for i in np.unique(bedfile["primer_num"]):
         pr_num = i
@@ -86,11 +119,13 @@ def make_amplicons_df(bedfile):
 
 
 def get_amplicon_cov(cov_df, start, stop, length=20):
+    """Get median coverage of an amplicon."""
     amplicon_slice = cov_df.iloc[np.r_[start:length, (stop - length) : stop], [2]]
     return np.median(amplicon_slice)
 
 
 def get_count_reads(cov_df, amplicons_df):
+    """Get coverage of all amplicons. ???"""
     cov = amplicons_df.apply(
         lambda x: get_amplicon_cov(cov_df, x["query_start"], x["query_end"]), axis=1
     )
@@ -98,6 +133,7 @@ def get_count_reads(cov_df, amplicons_df):
 
 
 def make_cov_heatmap(cov_df, output=None):
+    """Make heatmap of coverage."""
     plt.figure(figsize=(15, 8 * 2.5))
     split_at = round(cov_df.shape[0] / 2)
     plt.subplot(1, 2, 1)
@@ -173,8 +209,7 @@ def make_cov_heatmap(cov_df, output=None):
 @click.option("-v", "--verbose", is_flag=True, help="Verbose output.")
 def main(bedfile_addr, samp_file, samp_path, outdir, makeplots, verbose):
     """
-    Script to calculate primer rebalancings according to november 2020 version 5
-    of the ARTIC V3 protocol for sars-cov-2 sequencing.
+    Compute per amplicon relative coverage for a batch of samples.
     """
     if not os.path.exists(outdir):
         os.makedirs(outdir)
@@ -230,6 +265,13 @@ def main(bedfile_addr, samp_file, samp_path, outdir, makeplots, verbose):
         if verbose:
             click.echo("Outputting plots.")
         make_cov_heatmap(all_covs, os.path.join(outdir, "cov_heatmap.pdf"))
+
+        # make_median_cov_hist(all_covs, outdir + "/median_cov_hist.pdf")
+        # make_median_coverage_barplot(all_covs, outdir + "/median_coverage_barplot.pdf")
+
+        # make_cov_heatmap(all_covs_frac, outdir + "/cov_heatmap_norm.pdf")
+        # make_median_cov_hist(all_covs_frac, outdir + "/median_cov_hist_norm.pdf")
+        # make_median_coverage_barplot(all_covs_frac, outdir + "/median_coverage_barplot_norm.pdf")
 
 
 if __name__ == "__main__":
