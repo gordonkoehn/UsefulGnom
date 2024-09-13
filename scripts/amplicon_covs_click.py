@@ -206,6 +206,7 @@ def make_median_cov_hist(cov_df, output=None):
     click.echo("Computing median coverage histogram")
 
     try:
+        click.echo("Computing median coverage - what the heck is this?")
         median = np.nanmedian(cov_df.iloc[:, 1:].values, axis=0)
     except Exception as e:
         click.echo(f"Error computing median coverage: {str(e)}")
