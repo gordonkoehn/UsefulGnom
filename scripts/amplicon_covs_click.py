@@ -36,6 +36,8 @@ import re
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from typing import Optional
+
 
 def get_samples_paths(main_samples_path, samplestsv):
     """Get list of paths to coverage files given from a samples.tsv list file."""
@@ -54,18 +56,50 @@ def get_samples_paths(main_samples_path, samplestsv):
     return sam_paths_list
 
 
-def load_bedfile(bed) -> pd.DataFrame:
+# def load_bedfile(bed) -> pd.DataFrame:
+#     """Load bedfile and parse it."""
+#     bedfile = pd.read_table(bed, header=None)
+#     bedfile["sense"] = [re.search("(LEFT|RIGHT)", i).group(1) for i in bedfile[3]]
+#     bedfile["primer_num"] = [
+#         int(re.search("_([0-9]+)_", i).group(1)) for i in bedfile[3]
+#     ]
+#     bedfile["pool"] = [
+#         int(re.search("([1-2])$", i).group(1)) for i in bedfile[4].astype("str")
+#     ]
+#     bedfile = bedfile[[re.search("alt", i) is None for i in bedfile[3]]]
+#     return bedfile
+
+
+def safe_regex_search(pattern: str, text: str, group: int = 1) -> Optional[str]:
+    """Safely apply regex search and return group or None if not found."""
+    match = re.search(pattern, text)
+    return match.group(group) if match else None
+
+
+def load_bedfile(bed: str) -> pd.DataFrame:
     """Load bedfile and parse it."""
     bedfile = pd.read_table(bed, header=None)
-    bedfile["sense"] = [re.search("(LEFT|RIGHT)", i).group(1) for i in bedfile[3]]
-    bedfile["primer_num"] = [
-        int(re.search("_([0-9]+)_", i).group(1)) for i in bedfile[3]
-    ]
-    bedfile["pool"] = [
-        int(re.search("([1-2])$", i).group(1)) for i in bedfile[4].astype("str")
-    ]
-    bedfile = bedfile[[re.search("alt", i) is None for i in bedfile[3]]]
+
+    # Apply regex operations
+    bedfile["sense"] = bedfile[3].apply(lambda x: safe_regex_search("(LEFT|RIGHT)", x))
+    bedfile["primer_num"] = (
+        bedfile[3].apply(lambda x: safe_regex_search("_([0-9]+)_", x)).astype(float)
+    )
+    bedfile["pool"] = (
+        bedfile[4]
+        .astype(str)
+        .apply(lambda x: safe_regex_search("([1-2])$", x))
+        .astype(float)
+    )
+
+    # Filter rows where 'alt' is not in column 3
+    bedfile = bedfile[bedfile[3].apply(lambda x: "alt" not in str(x))]
+
     return bedfile
+
+
+# Usage
+df = load_bedfile("your_bed_file.bed")
 
 
 def make_amplicons_df(bedfile):
