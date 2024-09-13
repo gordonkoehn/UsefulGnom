@@ -336,18 +336,38 @@ def main(
 
         make_cov_heatmap(all_covs, os.path.join(outdir, "cov_heatmap.pdf"))
 
-        make_median_cov_hist(all_covs, os.path.join(outdir, "median_cov_hist.pdf"))
-        # make_median_coverage_barplot(
-        #     all_covs, os.path.join(outdir, "median_coverage_barplot.pdf")
-        # )
+        try:
+            make_median_cov_hist(all_covs, os.path.join(outdir, "median_cov_hist.pdf"))
+        except Exception as e:
+            click.echo(f"Error generating median_cov_hist plot: {str(e)}")
 
-        # make_cov_heatmap(all_covs_frac, os.path.join(outdir, "cov_heatmap_norm.pdf"))
-        # make_median_cov_hist(
-        #     all_covs_frac, os.path.join(outdir, "median_cov_hist_norm.pdf")
-        # )
-        # make_median_coverage_barplot(
-        #     all_covs_frac, os.path.join(outdir, "median_coverage_barplot_norm.pdf")
-        # )
+        try:
+            make_median_coverage_barplot(
+                all_covs, os.path.join(outdir, "median_coverage_barplot.pdf")
+            )
+        except Exception as e:
+            click.echo(f"Error generating median_coverage_barplot plot: {str(e)}")
+
+        try:
+            make_cov_heatmap(
+                all_covs_frac, os.path.join(outdir, "cov_heatmap_norm.pdf")
+            )
+        except Exception as e:
+            click.echo(f"Error generating cov_heatmap_norm plot: {str(e)}")
+
+        try:
+            make_median_cov_hist(
+                all_covs_frac, os.path.join(outdir, "median_cov_hist_norm.pdf")
+            )
+        except Exception as e:
+            click.echo(f"Error generating median_cov_hist_norm plot: {str(e)}")
+
+        try:
+            make_median_coverage_barplot(
+                all_covs_frac, os.path.join(outdir, "median_coverage_barplot_norm.pdf")
+            )
+        except Exception as e:
+            click.echo(f"Error generating median_coverage_barplot_norm plot: {str(e)}")
 
 
 if __name__ == "__main__":
