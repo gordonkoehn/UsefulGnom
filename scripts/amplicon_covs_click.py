@@ -204,8 +204,12 @@ def make_cov_heatmap(cov_df, output=None):
 def make_median_cov_hist(cov_df, output=None):
     """Make histogram of median coverage."""
     click.echo("Computing median coverage histogram")
-    median = np.nanmedian(cov_df.iloc[:, 1:].values, axis=0)
 
+    try:
+        median = np.nanmedian(cov_df.iloc[:, 1:].values, axis=0)
+    except Exception as e:
+        click.echo(f"Error computing median coverage: {str(e)}")
+        return
     plt.figure(figsize=(12, 6))
     sns.histplot(y=median, binwidth=0.002, stat="density")
     plt.title("Median coverage histogram")
