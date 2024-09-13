@@ -4,7 +4,7 @@
 ##################################################
 ### Environment
 ##################################################
-output_dir = "/cluster/home/koehng/temp/amplicon_cov/"
+output_dir = "/cluster/home/koehng/temp/amplicon_cov/click/"
 ##################################################
 
 
