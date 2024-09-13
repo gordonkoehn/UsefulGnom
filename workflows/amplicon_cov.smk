@@ -78,4 +78,9 @@ rule get_coverage_for_batch:
     Calculate the relative amplicon coverage for all samples in the batch specific samples{batch}.tsv file.
     """
     input:
-        samples = f"{output_dir}20240705_AAFH52MM5/cov_heatmap.pdf"
+        samples = f"{output_dir}20240705_AAFH52MM5/cov_heatmap.pdf",
+        median_cov_hist = output_dir + "{batch}/median_cov_hist.pdf",
+        make_median_coverage_barplot = output_dir + "{batch}/make_median_coverage_barplot.pdf",
+        cov_heatmap_norm = output_dir + "{batch}/cov_heatmap_norm.pdf",
+        median_cov_hist_norm = output_dir + "{batch}/median_cov_hist_norm.pdf",
+        median_coverage_barplot_norm = output_dir + "{batch}/median_coverage_barplot_norm.pdf"
