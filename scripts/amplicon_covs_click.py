@@ -41,14 +41,15 @@ from pathlib import Path
 from typing import Optional
 
 
-def get_samples_paths(main_samples_path, samplestsv):
+def get_samples_paths(main_samples_path: Path, samplestsv):
     """Get list of paths to coverage files given from a samples.tsv list file."""
+    main_samples_path_str = str(main_samples_path)
     sam_paths_list = []
     with open(samplestsv, "r") as f:
         for line in f:
             tmp = line.rstrip("\n").split("\t")
             sam_paths_list.append(
-                main_samples_path
+                main_samples_path_str
                 + "/"
                 + tmp[0]
                 + "/"
