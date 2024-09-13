@@ -25,7 +25,7 @@ rule relative_amplicon_coverage_allbatches:
     shell:
         """
         mkdir -p {params.output_dir}
-        python ../scripts/amplicon_covs.py \
+        python ../scripts/amplicon_covs_click.py \
             -s {input.sample_list} \
             -f {input.samples} \
             -r {params.primers_fp} \
