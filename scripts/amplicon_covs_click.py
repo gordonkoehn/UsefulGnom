@@ -335,20 +335,18 @@ def main(
 
         make_cov_heatmap(all_covs, os.path.join(outdir, "cov_heatmap.pdf"))
 
-        print("Making median cov hist")
+        # make_median_cov_hist(all_covs, os.path.join(outdir, "median_cov_hist.pdf"))
+        # make_median_coverage_barplot(
+        #     all_covs, os.path.join(outdir, "median_coverage_barplot.pdf")
+        # )
 
-        make_median_cov_hist(all_covs, os.path.join(outdir, "median_cov_hist.pdf"))
-        make_median_coverage_barplot(
-            all_covs, os.path.join(outdir, "median_coverage_barplot.pdf")
-        )
-
-        make_cov_heatmap(all_covs_frac, os.path.join(outdir, "cov_heatmap_norm.pdf"))
-        make_median_cov_hist(
-            all_covs_frac, os.path.join(outdir, "median_cov_hist_norm.pdf")
-        )
-        make_median_coverage_barplot(
-            all_covs_frac, os.path.join(outdir, "median_coverage_barplot_norm.pdf")
-        )
+        # make_cov_heatmap(all_covs_frac, os.path.join(outdir, "cov_heatmap_norm.pdf"))
+        # make_median_cov_hist(
+        #     all_covs_frac, os.path.join(outdir, "median_cov_hist_norm.pdf")
+        # )
+        # make_median_coverage_barplot(
+        #     all_covs_frac, os.path.join(outdir, "median_coverage_barplot_norm.pdf")
+        # )
 
 
 if __name__ == "__main__":
