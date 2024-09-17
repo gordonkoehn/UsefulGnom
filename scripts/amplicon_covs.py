@@ -239,43 +239,6 @@ def make_cov_heatmap(cov_df: pd.DataFrame, output=None):
         click.echo(f"Saved heatmap to {output}")
 
 
-def make_median_cov_hist(cov_df, output=None):
-    """Make histogram of median coverage."""
-    # FIXME (gordonkoehn):
-    # median computation causes performance a crash for test data
-    median = np.nanmedian(cov_df.iloc[:, 1:].values, axis=0)
-
-    plt.figure(figsize=(12, 6))
-    sns.histplot(y=median, binwidth=0.002, stat="density")
-    plt.title("Median coverage histogram")
-    plt.ylabel("median fraction of reads aligned on amplicon")
-    plt.xlabel("density")
-    plt.axhline(1 / 98, linestyle="--", color="black")
-
-    if output is not None:
-        plt.savefig(output)
-        click.echo(f"Saved median coverage histogram to {output}")
-
-
-def make_median_coverage_barplot(cov_df, output=None):
-    """Make barplot of median coverage."""
-    cov_df_long = pd.melt(cov_df.iloc[:, 1:])
-    cov_df_long["pool"] = cov_df_long["variable"].astype("int").mod(2) + 1
-
-    plt.figure(figsize=(22, 9))
-    sns.barplot(
-        x="variable", y="value", hue="pool", data=cov_df_long, estimator=np.median
-    )
-    plt.axhline(1 / 98, linestyle="--", color="black")
-    plt.xlabel("amplicon")
-    plt.ylabel("median fraction of reads")
-    plt.title("Median coverage barplot")
-
-    if output is not None:
-        plt.savefig(output)
-        click.echo(f"Saved median coverage barplot to {output}")
-
-
 @click.command()
 @click.option(
     "-r",
@@ -374,26 +337,6 @@ def main(
             click.echo("Outputting plots.")
 
         make_cov_heatmap(all_covs, os.path.join(outdir, "cov_heatmap.pdf"))
-
-        # TODO (gordonkoehn):
-        # Clarify the purpose of these plots, and if they are still needed.
-        #
-        # make_median_cov_hist(
-        #       all_covs, os.path.join(outdir, "median_cov_hist.pdf")
-        # )
-        #    make_median_coverage_barplot(
-        #        all_covs, os.path.join(outdir, "median_coverage_barplot.pdf")
-        #    )
-        #    make_cov_heatmap(
-        #        all_covs_frac, os.path.join(outdir, "cov_heatmap_norm.pdf")
-        #    )
-        #    make_median_cov_hist(
-        #        all_covs_frac, os.path.join(outdir, "median_cov_hist_norm.pdf")
-        #    )
-
-        #    make_median_coverage_barplot(
-        #        all_covs_frac, os.path.join(outdir, "median_coverage_barplot_norm.pdf")
-        #    )
 
 
 if __name__ == "__main__":
