@@ -1,3 +1,6 @@
+"""
+Test the make_price_data rule.
+"""
 import os
 import sys
 
@@ -10,6 +13,9 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 
 def test_make_price_data():
+    """
+    Test the make_price_data rule.
+    """
     with TemporaryDirectory() as tmpdir:
         workdir = Path(tmpdir) / "workdir"
         data_path = PurePosixPath(".tests/unit/make_price_data/data")
@@ -96,7 +102,8 @@ def test_make_price_data():
         # To modify this behavior, you can inherit from common.OutputChecker in here
         # and overwrite the method `compare_files(generated_file, expected_file),
         # also see common.py.
-        # common.OutputChecker(workdir / ".." / "data" , expected_path , workdir).check()
+        # common.OutputChecker(workdir / ".." /
+        # "data" , expected_path , workdir).check()
 
 
 if __name__ == "__main__":

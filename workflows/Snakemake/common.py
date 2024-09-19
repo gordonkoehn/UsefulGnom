@@ -8,12 +8,22 @@ import os
 
 
 class OutputChecker:
+    """
+    Check the output of a Snakemake rule.
+    """
+
     def __init__(self, data_path, expected_path, workdir):
+        """
+        Initialize the output checker.
+        """
         self.data_path = data_path
         self.expected_path = expected_path
         self.workdir = workdir
 
     def check(self):
+        """
+        Check the output of the rule.
+        """
         input_files = set(
             (Path(path) / f).relative_to(self.data_path)
             for path, subdirs, files in os.walk(self.data_path)
@@ -45,4 +55,7 @@ class OutputChecker:
             )
 
     def compare_files(self, generated_file, expected_file):
+        """
+        Compare two files.
+        """
         sp.check_output(["cmp", generated_file, expected_file])
