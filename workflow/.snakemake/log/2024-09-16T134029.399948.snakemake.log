@@ -1,0 +1,6 @@
+Building DAG of jobs...
+MissingInputException in rule make_price_data in file /Users/koehng/Documents/repos/UsefulGnom/workflows/smk_testing.smk, line 36:
+Missing input files for rule make_price_data:
+    output: data/statistics.csv
+    affected files:
+        data/AMZN_2012-06-21_34200000_57600000_orderbook_1.csv
