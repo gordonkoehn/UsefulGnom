@@ -13,9 +13,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 
 def test_make_price_data():
-    """
-    Test the make_price_data rule.
-    """
+    """Test the make_price_data rule."""
     with TemporaryDirectory() as tmpdir:
         workdir = Path(tmpdir) / "workdir"
         data_path = PurePosixPath(".tests/unit/make_price_data/data")
