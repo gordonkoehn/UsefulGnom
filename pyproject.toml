@@ -16,7 +16,7 @@ pandas-stubs = "^2.2.2.240807"
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.1"
 ruff = "^0.0.253"
-black = "^23.1.0"
+black = "^24.8.0"
 pytest-cov = "^4.0.0"
 pytest-xdist = "^3.2.0"
 pre-commit = "^3.1.0"
