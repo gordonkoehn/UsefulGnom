@@ -1,6 +1,7 @@
 """
 Test the make_price_data rule.
 """
+
 import os
 import sys
 
