@@ -1,4 +1,4 @@
-name: test-snake
+name: Snakemake CI
 
 on:
     push:

@@ -1,7 +1,7 @@
 # This pipeline checks whether the package
 # installs properly, passes unit tests and whether
 # the code formatting is right.
-name: build
+name: CI/CD
 
 on:
   push:
@@ -52,19 +52,3 @@ jobs:
         run: poetry run interrogate src
       - name: Run Pyright (type checking)
         run: poetry run pyright
-
-      - name: Linting
-        uses: snakemake/snakemake-github-action@v1
-        with:
-          directory: '.test'
-          snakefile: 'workflows/Snakefile'
-          args: '--lint'
-
-      - name: Testing
-        uses: snakemake/snakemake-github-action@v1
-        with:
-          directory: '.test'
-          snakefile: 'workflows/Snakefile'
-          args: '--cores 1 --use-conda --conda-cleanup-pkgs cache'
-          stagein: '' # additional preliminary commands to run (can be multiline)
-          show-disk-usage-on-error: true
