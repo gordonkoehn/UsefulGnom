@@ -3,3 +3,4 @@ poetry.lock
 .vscode/
 __pycache__/
 *.pyc
+workflow/.snakemake
