@@ -1,0 +1,33 @@
+name: test-snake
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Run tests
+        run: poetry run pytest
+
+      - name: Snakemake Linting
+        run: |
+          poetry run snakemake --lint -s workflows/Snakefile
+
+      - name: Snakemake Testing
+        run: |
+          poetry run snakemake -s workflows/Snakefile --cores 1 --use-conda --conda-cleanup-pkgs cache
+
+      # Add other steps as needed
