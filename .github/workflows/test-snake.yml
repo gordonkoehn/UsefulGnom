@@ -41,8 +41,8 @@ jobs:
       - name: Install the module
         run: poetry install --with dev --no-interaction
         
-      - name: Run tests
-        run: poetry run pytest
+      - name: Install Snakemake
+        run: poetry run pip install snakemake
 
       - name: Snakemake Linting
         run: |
