@@ -57,7 +57,7 @@ jobs:
         uses: snakemake/snakemake-github-action@v1
         with:
           directory: '.test'
-          snakefile: 'workflow/Snakefile'
+          snakefile: 'workflows/Snakefile'
           args: '--lint'
 
       - name: Testing
