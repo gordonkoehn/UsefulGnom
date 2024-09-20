@@ -1,0 +1,8 @@
+"""Snakemake file defining the workflows"""
+
+include: "base_coverage.smk"
+include: "smk_testing.smk"
+
+rule all:
+    input:
+        "../data/statistics.csv"
