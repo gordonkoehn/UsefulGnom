@@ -1,3 +1,0 @@
-Building DAG of jobs...
-MissingRuleException:
-No rule to produce ../data/AMZN_2012-06-21_34200000_57600000_orderbook_1.csv (if you use input functions make sure that they don't raise unexpected exceptions).
