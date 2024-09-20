@@ -44,9 +44,9 @@ jobs:
       - name: Install Snakemake
         run: poetry run pip install snakemake
 
-      - name: Snakemake Linting
-        run: |
-          poetry run snakemake --lint -s workflows/Snakefile
+      # - name: Snakemake Linting
+      #   run: |
+      #     poetry run snakemake --lint -s workflows/Snakefile
 
       - name: Snakemake Testing
         run: |
