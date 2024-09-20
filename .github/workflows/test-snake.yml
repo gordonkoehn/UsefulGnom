@@ -49,5 +49,10 @@ jobs:
       #     poetry run snakemake --lint -s workflows/Snakefile
 
       - name: Snakemake Testing
-        run: |
-          poetry run snakemake -s workflows/Snakefile --cores 1 --use-conda --conda-cleanup-pkgs cache
+        uses: snakemake/snakemake-github-action@v1
+        with:
+          directory: '.test'
+          snakefile: 'workflow/Snakefile'
+          args: '--cores 1 --use-conda --conda-cleanup-pkgs cache'
+          stagein: '' # additional preliminary commands to run (can be multiline)
+          show-disk-usage-on-error: true
