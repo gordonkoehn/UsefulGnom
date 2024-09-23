@@ -3,11 +3,13 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 
+configfile: "config/smk_testing_config.yaml"
+
 rule make_price_data:
     input:
-        orderbook = "../data/AMZN_2012-06-21_34200000_57600000_message_1.csv"
+        orderbook = config["orderbook"]
     output:
-        statistics = "../data/statistics.csv"
+        statistics = config["statistics"]
     run:
         # Read the data
         data = pd.read_csv(input.orderbook)

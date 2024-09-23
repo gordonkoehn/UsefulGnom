@@ -17,8 +17,8 @@ def test_make_price_data():
     """Test the make_price_data rule."""
     with TemporaryDirectory() as tmpdir:
         workdir = Path(tmpdir) / "workdir"
-        data_path = PurePosixPath(".tests/unit/make_price_data/data")
-        expected_path = PurePosixPath(".tests/unit/make_price_data/expected")
+        data_path = PurePosixPath("workflows/.tests/unit/make_price_data/data")
+        expected_path = PurePosixPath("workflows/.tests/unit/make_price_data/expected")
 
         # Copy data to the temporary workdir.
         shutil.copytree(data_path, workdir / ".." / "data")

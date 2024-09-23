@@ -1,0 +1,10 @@
+"""Snakemake file defining the workflows"""
+
+configfile: "config/config.yaml"
+
+include: "rules/base_coverage.smk"
+include: "rules/smk_testing.smk"
+
+rule all:
+    input:
+        "results/statistics.csv"
