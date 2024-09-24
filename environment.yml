@@ -10,3 +10,9 @@ dependencies:
   - python=3.11.2
   - snakemake=8.18.2
   - poetry=1.8.3
+  - matplotlib=3.9.2
+  - pandas=2.2.2
+  - seaborn=0.13.2
+  - pip
+  - pip:
+    - -e .

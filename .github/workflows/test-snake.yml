@@ -51,15 +51,8 @@ jobs:
         with:
           directory: '.test'
           snakefile: 'workflow/Snakefile'
-          args: '--cores 1 --use-conda --conda-cleanup-pkgs cache'
+          args: '--cores 1 --use-conda --conda-frontend mamba --conda-cleanup-pkgs cache'
           stagein: |
-            source $GITHUB_WORKSPACE/.venv/bin/activate
-            export PYTHONPATH="${PYTHONPATH}:$GITHUB_WORKSPACE:$GITHUB_WORKSPACE/src"
+            export PYTHONPATH="${PYTHONPATH}:/github/workspace:/github/workspace/src"
             echo $PYTHONPATH
-            which python
-            python --version
-            pip list
-            python -c "import sys; print(sys.path)"
-            python -c "import usefulgnom; print(usefulgnom.__file__)"
-            python -c "import snakemake; print(snakemake.__file__)"
           show-disk-usage-on-error: true

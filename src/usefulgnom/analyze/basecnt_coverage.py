@@ -1,4 +1,5 @@
-"""Implements the read coverage analysis.
+"""
+    Implements the read coverage analysis.
 
     Credits:
         - core code: @AugusteRi (arimaite@ethz.ch)
