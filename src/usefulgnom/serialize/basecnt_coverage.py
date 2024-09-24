@@ -1,16 +1,17 @@
-"""Implements loading and converting the base nucleotide coverage data.
+"""
+    Implements loading and converting the base nucleotide coverage data.
 
-e.g.: of base nucleotide coverage file -  bascnt.tsv:
+    e.g.: of base nucleotide coverage file -  bascnt.tsv:
 
-sample		B3_25_2024_08_11/20240823_2346503305	\ 
-B3_25_2024_08_11/20240823_2346503305	B3_25_2024_08_11/20240823_2346503305 \
-B3_25_2024_08_11/20240823_2346503305	B3_25_2024_08_11/20240823_2346503305
-nt		A	C	G	T	-
-ref	pos					
-NC_045512.2	1	0	0	0	0	0
-NC_045512.2	2	0	0	0	0	0
-NC_045512.2	3	0	0	0	0	0
-NC_045512.2	4	0	0	0	0	0
+    sample		B3_25_2024_08_11/20240823_2346503305	
+    B3_25_2024_08_11/20240823_2346503305	B3_25_2024_08_11/20240823_2346503305 
+    B3_25_2024_08_11/20240823_2346503305	B3_25_2024_08_11/20240823_2346503305
+    nt		A	C	G	T	-
+    ref	pos					
+    NC_045512.2	1	0	0	0	0	0
+    NC_045512.2	2	0	0	0	0	0
+    NC_045512.2	3	0	0	0	0	0
+    NC_045512.2	4	0	0	0	0	0
 
 """
 
