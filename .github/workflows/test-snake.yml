@@ -54,7 +54,6 @@ jobs:
 
       - name: Snakemake Testing
         run: |
-          conda activate usefulgnom
           export PYTHONPATH="${PYTHONPATH}:$GITHUB_WORKSPACE:$GITHUB_WORKSPACE/src"
           snakemake --cores 1 --snakefile workflow/Snakefile --directory .test --use-conda --verbose
 
