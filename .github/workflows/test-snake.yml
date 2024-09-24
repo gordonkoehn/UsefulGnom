@@ -53,7 +53,7 @@ jobs:
         run: |
           source .venv/bin/activate
           export PYTHONPATH="${PYTHONPATH}:$GITHUB_WORKSPACE:$GITHUB_WORKSPACE/src"
-          snakemake --cores 1 --snakefile workflow/Snakefile --directory .test --use-conda --verbose
+          snakemake --cores 1 --snakefile workflow/Snakefile --directory .test --use-conda -conda-frontend conda --verbose
 
 
       # - name: Snakemake Linting
