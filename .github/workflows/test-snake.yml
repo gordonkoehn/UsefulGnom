@@ -28,31 +28,34 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: true
           version: ${{ matrix.poetry-version }}
-      - name: Install dependencies and package
+
+      - name: Create and activate virtual environment
         run: |
-          poetry install --with dev --no-interaction
-          poetry run pip install -e .
-      
+          python -m venv .venv
+          source .venv/bin/activate
+
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          poetry config virtualenvs.create false
+          poetry install --no-interaction --no-root
+          pip install -e .
+          pip install snakemake
+
       - name: Debug Python environment
         run: |
-          poetry run which python
-          poetry run python --version
-          poetry run pip list
-          poetry run python -c "import sys; print(sys.path)"
-          poetry run python -c "import usefulgnom; print(usefulgnom.__file__)"
+          which python
+          python --version
+          pip list
+          echo $PYTHONPATH
+
+      - name: Snakemake Testing
+        run: |
+          source .venv/bin/activate
+          export PYTHONPATH="${PYTHONPATH}:$GITHUB_WORKSPACE:$GITHUB_WORKSPACE/src"
+          snakemake --cores 1 --snakefile workflow/Snakefile --directory .test --use-conda --conda-frontend mamba --verbose
+
 
       # - name: Snakemake Linting
       #   run: |
       #     poetry run snakemake --lint -s workflow/Snakefile
-
-      - name: Snakemake Testing
-        uses: snakemake/snakemake-github-action@v1
-        with:
-          directory: '.test'
-          snakefile: 'workflow/Snakefile'
-          args: '--cores 1 --use-conda --conda-frontend mamba --conda-cleanup-pkgs cache'
-          stagein: |
-            source /home/runner/work/UsefulGnom/UsefulGnom/.venv/bin/activate
-            export PYTHONPATH="${PYTHONPATH}:/github/workspace:/github/workspace/src"
-            echo $PYTHONPATH
-          show-disk-usage-on-error: true
