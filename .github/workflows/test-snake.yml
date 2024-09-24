@@ -54,7 +54,6 @@ jobs:
 
       - name: Snakemake Testing
         run: |
-          source .venv/bin/activate
           conda activate usefulgnom
           export PYTHONPATH="${PYTHONPATH}:$GITHUB_WORKSPACE:$GITHUB_WORKSPACE/src"
           snakemake --cores 1 --snakefile workflow/Snakefile --directory .test --use-conda --verbose
@@ -63,3 +62,5 @@ jobs:
       # - name: Snakemake Linting
       #   run: |
       #     poetry run snakemake --lint -s workflow/Snakefile
+
+      # source .venv/bin/activate
