@@ -38,7 +38,7 @@ jobs:
 
       - name: Snakemake Linting
         run: |
-            poetry run snakemake --lint -s workflow/Snakefile
+          snakemake --lint -s workflow/Snakefile
 
       - name: Snakemake Testing
         run: |
