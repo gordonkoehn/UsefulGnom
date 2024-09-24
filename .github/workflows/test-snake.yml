@@ -51,8 +51,6 @@ jobs:
           poetry config virtualenvs.create false
           poetry install --no-interaction --no-root
           pip install -e .
-          mamba create -c conda-forge -c bioconda -n snakemake snakemake
-          mamba activate snakemake
 
       - name: Snakemake Testing
         run: |
