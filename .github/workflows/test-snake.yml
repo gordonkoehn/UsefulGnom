@@ -41,6 +41,10 @@ jobs:
           poetry run python -c "import sys; print(sys.path)"
           poetry run python -c "import usefulgnom; print(usefulgnom.__file__)"
         
+      - name: Debug file content
+        run: |
+          echo "Content of basecnt_coverage.py:"
+          cat /github/workspace/src/usefulgnom/serialize/basecnt_coverage.py
 
       # - name: Snakemake Linting
       #   run: |
