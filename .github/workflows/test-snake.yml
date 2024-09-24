@@ -59,5 +59,11 @@ jobs:
           directory: '.test'
           snakefile: 'workflow/Snakefile'
           args: '--cores 1 --use-conda --conda-cleanup-pkgs cache'
-          stagein: '' # additional preliminary commands to run (can be multiline)
+          stagein: |
+              export PYTHONPATH="${PYTHONPATH}:/home/runner/work/UsefulGnom/UsefulGnom:/home/runner/work/UsefulGnom/UsefulGnom/src"
+              echo $PYTHONPATH
+              source /home/runner/work/UsefulGnom/UsefulGnom/.venv/bin/activate
+              which python
+              python --version
+              pip list
           show-disk-usage-on-error: true
