@@ -39,7 +39,7 @@ repos:
 
       - id: snakemake-dryrun
         name: Snakemake Dry Run
-        entry: bash -c 'cd workflow && snakemake --lint'
+        entry: bash -c 'cd workflow && snakemake -n'
         language: system
         files: (Snakefile|\.smk$)
         pass_filenames: false
