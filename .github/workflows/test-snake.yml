@@ -40,6 +40,11 @@ jobs:
         if: steps.cache-deps.outputs.cache-hit != 'true'
       - name: Install the module
         run: poetry install --with dev --no-interaction
+
+      - name: Debug Directory
+        run: |
+          pwd
+          ls -R
         
       - name: Install Snakemake
         run: poetry run pip install snakemake
