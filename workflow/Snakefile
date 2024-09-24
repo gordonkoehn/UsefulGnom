@@ -3,8 +3,10 @@
 configfile: "../config/config.yaml"
 
 include: "rules/base_coverage.smk"
-include: "rules/smk_testing.smk"
 include: "rules/amplicon_cov.smk"
+
+# example workflow for testing unit tests
+include: "rules/smk_testing.smk"
 
 conda:
         "../environment.yml"

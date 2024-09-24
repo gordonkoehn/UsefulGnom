@@ -20,39 +20,28 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-###################################
-###### Enrionmental Variables
-#### Inputs
-# str - path pattern to basecnt.tsv files
-basecnt_tsv_dir = "/cluster/project/pangolin/work-vp-test/results/*/*/alignments/basecnt.tsv.gz"
-total_coverage_dir = "/cluster/project/pangolin/work-vp-test/results/*/*/alignments/coverage.tsv.gz"
-### files
-# singe file with colum [mut] listing mutation of interest in each row
-mutations_of_interest_dir = "/cluster/home/koehng/temp/mutations_of_interest.csv"
-# timeline file of columns [sample, batch, reads, proto, location_code, date, location]
-timeline_fp = "/cluster/project/pangolin/work-vp-test/variants/timeline.tsv"
-#### Outputs
-OUTDIR = "/cluster/home/koehng/temp/"
-###################################
+configfile: "../config/base_coverage.yaml"
 
 
 rule basecnt_coverage_depth:
     """Generate matrix of coverage depth per base position
     """
     input:
-        mutations_of_interest = mutations_of_interest_dir,
-        timeline = timeline_fp
+        mutations_of_interest = config["mutations_of_interest_dir"],
+        timeline = config["timeline_fp"]
     output:
-        output_file = OUTDIR + "{location}/mut_base_coverage_{location}_{enddate}.csv"
+        output_file = config["outdir"] + "{location}/mut_base_coverage_{location}_{enddate}.csv"
     params:
         startdate = "2024-01-01",
         enddate = "{enddate}",
         location = "{location}",
         # TODO: add protocol and subset params, see extract_sample_ID
+    log:
+        "logs/basecnt_coverage_depth/{location}_{enddate}.log"
     run:
         logging.info("Running basecnt_coverage_depth")
         ug.analyze.run_basecnt_coverage(
-            basecnt_fps=basecnt_tsv_dir,
+            basecnt_fps=config["basecnt_tsv_dir"],
             timeline_file_dir=input.timeline,
             mutations_of_interest_dir=input.mutations_of_interest,
             output_file=output.output_file,
@@ -66,19 +55,21 @@ rule total_coverage_depth:
     """ Calcultate the total coverage depth
     """ 
     input:
-        mutations_of_interest = mutations_of_interest_dir,
-        timeline = timeline_fp
+        mutations_of_interest = config["mutations_of_interest_dir"],
+        timeline = config["timeline_fp"]
     output:
-        output_file = OUTDIR + "{location}/mut_total_coverage_{location}_{enddate}.csv"
+        output_file = config["outdir"] + "{location}/mut_total_coverage_{location}_{enddate}.csv"
     params:
         startdate = "2024-01-01",
         enddate = "{enddate}",
         location = "{location}",
         # TODO: add protocol and subset params, see extract_sample_ID
+    log:
+        "logs/basecnt_coverage_depth/{location}_{enddate}.log"
     run:
         logging.info("Running total_coverage_depth")
         ug.analyze.run_total_coverage_depth(
-            coverage_tsv_fps=total_coverage_dir,
+            coverage_tsv_fps=config["total_coverage_dir"],
             mutations_of_interest_fp=input.mutations_of_interest,
             timeline_file_dir=input.timeline,
             output_file=output.output_file,
@@ -87,20 +78,23 @@ rule total_coverage_depth:
             location = params.location
         )
 
+# snakemake lint=off
 rule mutation_statistics:
     """Compute mutation frequencies from the basecnt and general coverages and report the statistics
     """
     input:
-        basecnt_coverage = OUTDIR + "{location}/mut_base_coverage_{location}_{enddate}.csv",
-        total_coverage = OUTDIR + "{location}/mut_total_coverage_{location}_{enddate}.csv"
+        basecnt_coverage = config["outdir"] + "{location}/mut_base_coverage_{location}_{enddate}.csv",
+        total_coverage = config["outdir"] + "{location}/mut_total_coverage_{location}_{enddate}.csv"
     params:
         location = "{location}",
         enddate = "{enddate}"
+    log:
+        "logs/basecnt_coverage_depth/{location}_{enddate}.log"
     output:
-        heatmap = OUTDIR + "{location}/heatmap_{location}_{enddate}.pdf",
-        lineplot = OUTDIR + "{location}/lineplot_{location}_{enddate}.pdf",
-        frequency_data_matrix = OUTDIR + "{location}/frequency_data_matrix_{location}_{enddate}.csv",
-        mutations_statistics = OUTDIR + "{location}/mutations_statistics__{location}_{enddate}.csv"
+        heatmap = config["outdir"] + "{location}/heatmap_{location}_{enddate}.pdf",
+        lineplot = config["outdir"] + "{location}/lineplot_{location}_{enddate}.pdf",
+        frequency_data_matrix = config["outdir"] + "{location}/frequency_data_matrix_{location}_{enddate}.csv",
+        mutations_statistics = config["outdir"] + "{location}/mutations_statistics__{location}_{enddate}.csv"
     run:
         logging.info("Running mutation_statistics")
         # Median frequency with IQR
@@ -279,13 +273,14 @@ rule mutation_statistics:
         )
         logging.info("Saved mutation statistics")
 
+# snakemake lint=on
 
 rule mutation_statistics_Zürich_2024_07_03:
     """ Run mutation_statistics for Zürich on and enddate 2024-07-03
     """ 
     input:
-        OUTDIR + "Zürich (ZH)/lineplot_Zürich (ZH)_2024-07-03.pdf",
-        OUTDIR + "Zürich (ZH)/heatmap_Zürich (ZH)_2024-07-03.pdf",
-        OUTDIR + "Zürich (ZH)/frequency_data_matrix_Zürich (ZH)_2024-07-03.csv",
-        OUTDIR + "Zürich (ZH)/mutations_statistics__Zürich (ZH)_2024-07-03.csv"
+        config["outdir"] + "Zürich (ZH)/lineplot_Zürich (ZH)_2024-07-03.pdf",
+        config["outdir"] + "Zürich (ZH)/heatmap_Zürich (ZH)_2024-07-03.pdf",
+        config["outdir"] + "Zürich (ZH)/frequency_data_matrix_Zürich (ZH)_2024-07-03.csv",
+        config["outdir"] + "Zürich (ZH)/mutations_statistics__Zürich (ZH)_2024-07-03.csv"
 
