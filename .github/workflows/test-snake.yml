@@ -34,24 +34,30 @@ jobs:
           python -m venv .venv
           source .venv/bin/activate
 
+    
+      - uses: mamba-org/setup-micromamba@v1
+        with:
+          micromamba-version: '1.5.6-0' # any version from https://github.com/mamba-org/micromamba-releases
+          environment-file: environment.yml
+          init-shell: >-
+            bash
+            powershell
+          cache-environment: true
+          post-cleanup: 'all'
+
       - name: Install dependencies
         run: |
           pip install poetry
           poetry config virtualenvs.create false
           poetry install --no-interaction --no-root
           pip install -e .
-          pip install snakemake
-
-      - name: Debug Python environment
-        run: |
-          which python
-          python --version
-          pip list
-          echo $PYTHONPATH
+          mamba create -c conda-forge -c bioconda -n snakemake snakemake
+          mamba activate snakemake
 
       - name: Snakemake Testing
         run: |
           source .venv/bin/activate
+          conda activate usefulgnom
           export PYTHONPATH="${PYTHONPATH}:$GITHUB_WORKSPACE:$GITHUB_WORKSPACE/src"
           snakemake --cores 1 --snakefile workflow/Snakefile --directory .test --use-conda --verbose
 
