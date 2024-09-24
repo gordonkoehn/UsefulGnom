@@ -17,6 +17,16 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Lint Code Base
+        uses: github/super-linter@v3
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          VALIDATE_SNAKEMAKE_SNAKEFMT: true
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
@@ -35,11 +45,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -e .
-
-      - name: Snakemake Linting
-        run: |
-          cd workflow
-          snakemake --lint -s Snakefile
 
       - name: Snakemake Testing
         run: |

@@ -29,6 +29,7 @@ mkdocstrings = {extras = ["python"], version = "^0.21.2"}
 mkdocs-gen-files = "^0.4.0"
 mkdocs-literate-nav = "^0.6.0"
 setuptools = "^74.1.2"
+snakefmt = "^0.10.2"
 
 [tool.coverage.report]
 fail_under = 85.0
@@ -56,6 +57,10 @@ exclude = ["**/node_modules",
     "src/experimental",
     "src/typestubs"
 ]
+
+[tool.snakefmt]
+line_length = 88
+include = '\.smk$|^Snakefile'
 
 
 [build-system]

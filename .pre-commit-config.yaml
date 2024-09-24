@@ -28,15 +28,12 @@ repos:
         language: node
         pass_filenames: true
         types: [python]
+  - repo: https://github.com/snakemake/snakefmt
+    rev: v0.10.2 
+    hooks:
+      - id: snakefmt
   - repo: local
     hooks:
-      - id: snakemake-lint
-        name: Snakemake Lint
-        entry: bash -c 'cd workflow && snakemake --lint'
-        language: system
-        files: (Snakefile|\.smk$)
-        pass_filenames: false
-
       - id: snakemake-dryrun
         name: Snakemake Dry Run
         entry: bash -c 'cd workflow && snakemake -n'
