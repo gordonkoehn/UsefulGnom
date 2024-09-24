@@ -41,8 +41,6 @@ jobs:
           poetry install --no-interaction --no-root
           pip install -e .
           pip install snakemake
-          conda install -c conda-forge mamba
-          mamba install -c conda-forge -c bioconda snakemake
 
       - name: Debug Python environment
         run: |
@@ -55,7 +53,7 @@ jobs:
         run: |
           source .venv/bin/activate
           export PYTHONPATH="${PYTHONPATH}:$GITHUB_WORKSPACE:$GITHUB_WORKSPACE/src"
-          snakemake --cores 1 --snakefile workflow/Snakefile --directory .test --use-conda --conda-frontend mamba --verbose
+          snakemake --cores 1 --snakefile workflow/Snakefile --directory .test --use-conda --verbose
 
 
       # - name: Snakemake Linting
