@@ -38,7 +38,8 @@ jobs:
 
       - name: Snakemake Linting
         run: |
-          snakemake --lint -s workflow/Snakefile
+          cd workflow
+          snakemake --lint -s Snakefile
 
       - name: Snakemake Testing
         run: |
