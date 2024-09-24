@@ -9,8 +9,8 @@ rule relative_amplicon_coverage_per_batch:
     Calculate the relative amplicon coverage for all samples in the batch specific samples{batch}.tsv file.
     """
     input:
-        sample_list = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples{batch}.tsv",
-        samples = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples"
+        sample_list = config['sample_list_dir'] + "samples{batch}.tsv",
+        samples = config['sample_dir']
     output:
         heatmap = config["output_dir"] + "{batch}/cov_heatmap.pdf",
     params:
@@ -33,9 +33,9 @@ rule relative_amplicon_coverage_per_batch:
 
 rule get_samples_per_batch:
     input:
-        samples_list = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples.tsv"
+        samples_list = config['sample_list_dir'] + "samples.tsv"
     output:
-        samples_batch = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples{batch}.tsv"
+        samples_batch = config['sample_list_dir'] + "samples{batch}.tsv",
     log:
         config["output_dir"] + "get_samples_per_batch_{batch}.log"
     shell:
