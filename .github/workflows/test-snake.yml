@@ -16,7 +16,22 @@ jobs:
         poetry-version: ["1.8.3"]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Lint Code Base
+        uses: github/super-linter/slim@v5
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: branch_name
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISABLE_ERRORS: true
+          PYTHON_FLAKE8_CONFIG_FILE: .flake8
+          VALIDATE_PYTHON_FLAKE8: true
+          VALIDATE_SNAKEMAKE_SNAKEFMT: true
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
@@ -35,11 +50,6 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -e .
-
-      - name: Snakemake Linting
-        run: |
-          cd workflow
-          snakemake --lint -s Snakefile
 
       - name: Snakemake Testing
         run: |
