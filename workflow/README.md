@@ -7,6 +7,8 @@ Implements workflows to test and evaluate **UsefulGnom** using [snakemake](https
 
 ## Usage
 
+All rules shall be run from the root directory.
+
 ### Base / Total Coverage Depth, Frequncy Matrix, Mutation Statistics
 
 Before running any rules, set the desired **Enrionmental Variables** in `base_coverage.smk`

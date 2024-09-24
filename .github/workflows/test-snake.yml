@@ -1,0 +1,47 @@
+name: Snakemake CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        python-version: ["3.11.2"]
+        poetry-version: ["1.8.3"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - uses: mamba-org/setup-micromamba@v1
+        with:
+          micromamba-version: '1.5.6-0' 
+          environment-file: environment.yml
+          init-shell: >-
+            bash
+          cache-environment: true
+          post-cleanup: 'all'
+
+      - name: Install dependencies
+        run: |
+          pip install -e .
+
+      - name: Snakemake Linting
+        run: |
+          snakemake --lint -s workflow/Snakefile
+
+      - name: Snakemake Testing
+        run: |
+          snakemake --cores 1 --snakefile workflow/Snakefile --directory .test --verbose
+
+      

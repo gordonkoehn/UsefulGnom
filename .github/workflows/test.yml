@@ -1,7 +1,7 @@
 # This pipeline checks whether the package
 # installs properly, passes unit tests and whether
 # the code formatting is right.
-name: build
+name: CI/CD
 
 on:
   push:
