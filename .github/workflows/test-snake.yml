@@ -54,6 +54,7 @@ jobs:
 
       - name: Snakemake Testing
         run: |
+          mamba activate usefulgnom
           snakemake --cores 1 --snakefile workflow/Snakefile --directory .test --use-conda --verbose
 
 
