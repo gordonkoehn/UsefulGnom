@@ -52,6 +52,7 @@ jobs:
       - name: Snakemake Testing
         run: |
           source .venv/bin/activate
+          which conda
           export PYTHONPATH="${PYTHONPATH}:$GITHUB_WORKSPACE:$GITHUB_WORKSPACE/src"
           snakemake --cores 1 --snakefile workflow/Snakefile --directory .test --use-conda -conda-frontend conda --verbose
 
