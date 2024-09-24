@@ -1,12 +1,7 @@
 """Implements the relative amplicon coverage."""
 
 
-##################################################
-### Environment
-##################################################
-output_dir = "/cluster/home/koehng/temp/amplicon_cov/"
-##################################################
-
+configfile: "../config/amplicon_cov.smk"
 
 
 rule relative_amplicon_coverage_per_batch:
@@ -14,18 +9,15 @@ rule relative_amplicon_coverage_per_batch:
     Calculate the relative amplicon coverage for all samples in the batch specific samples{batch}.tsv file.
     """
     input:
-        sample_list = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples{batch}.tsv",
-        samples = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples"
+        sample_list = config['sample_list_dir'] + "samples{batch}.tsv",
+        samples = config['sample_dir']
     output:
-        heatmap = output_dir + "{batch}/cov_heatmap.pdf",
-     #   median_cov_hist = output_dir + "{batch}/median_cov_hist.pdf",
-     #   make_median_coverage_barplot = output_dir + "{batch}/make_median_coverage_barplot.pdf",
-     #   cov_heatmap_norm = output_dir + "{batch}/cov_heatmap_norm.pdf",
-     #   median_cov_hist_norm = output_dir + "{batch}/median_cov_hist_norm.pdf",
-     #   median_coverage_barplot_norm = output_dir + "{batch}/median_coverage_barplot_norm.pdf"
+        heatmap = config["output_dir"] + "{batch}/cov_heatmap.pdf",
     params:
         primers_fp ="../resources/amplicon_cov/articV3primers.bed",
-        output_dir = output_dir + "{batch}/"
+        output_dir = config["output_dir"] + "{batch}/"
+    log:
+        config["output_dir"] + "relative_amplicon_coverage_per_batch/{batch}.log"
     shell:
         """
         mkdir -p {params.output_dir}
@@ -41,9 +33,11 @@ rule relative_amplicon_coverage_per_batch:
 
 rule get_samples_per_batch:
     input:
-        samples_list = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples.tsv"
+        samples_list = config['sample_list_dir'] + "samples.tsv"
     output:
-        samples_batch = "/cluster/project/pangolin/work-amplicon-coverage/test_data/samples{batch}.tsv"
+        samples_batch = config['sample_list_dir'] + "samples{batch}.tsv",
+    log:
+        config["output_dir"] + "get_samples_per_batch_{batch}.log"
     shell:
         """
         grep {wildcards.batch} {input.samples_list} > {output.samples_batch}
@@ -54,9 +48,4 @@ rule get_coverage_for_batch:
     Calculate the relative amplicon coverage for all samples in the batch specific samples{batch}.tsv file.
     """
     input:
-        samples = f"{output_dir}20240705_AAFH52MM5/cov_heatmap.pdf",
-       # median_cov_hist = f"{output_dir}20240705_AAFH52MM5/median_cov_hist.pdf",
-       # make_median_coverage_barplot = f"{output_dir}20240705_AAFH52MM5/make_median_coverage_barplot.pdf",
-       # cov_heatmap_norm = f"{output_dir}20240705_AAFH52MM5/cov_heatmap_norm.pdf",
-       # median_cov_hist_norm =  f"{output_dir}20240705_AAFH52MM5/median_cov_hist_norm.pdf",
-       # median_coverage_barplot_norm = f"{output_dir}20240705_AAFH52MM5/median_coverage_barplot_norm.pdf"
+        samples = f"{config['output_dir']}20240705_AAFH52MM5/cov_heatmap.pdf",
