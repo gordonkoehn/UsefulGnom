@@ -25,7 +25,7 @@ jobs:
 
       - uses: mamba-org/setup-micromamba@v1
         with:
-          micromamba-version: '1.5.6-0' # any version from https://github.com/mamba-org/micromamba-releases
+          micromamba-version: '1.5.6-0' 
           environment-file: environment.yml
           init-shell: >-
             bash
@@ -36,13 +36,12 @@ jobs:
         run: |
           pip install -e .
 
+      - name: Snakemake Linting
+        run: |
+            poetry run snakemake --lint -s workflow/Snakefile
+
       - name: Snakemake Testing
         run: |
           snakemake --cores 1 --snakefile workflow/Snakefile --directory .test --verbose
 
-
-      # - name: Snakemake Linting
-      #   run: |
-      #     poetry run snakemake --lint -s workflow/Snakefile
-
-      # source .venv/bin/activate
+      
