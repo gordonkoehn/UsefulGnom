@@ -41,6 +41,7 @@ jobs:
           poetry install --no-interaction --no-root
           pip install -e .
           pip install snakemake
+          pip install mamba
 
       - name: Debug Python environment
         run: |
