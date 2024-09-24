@@ -1,0 +1,1 @@
+This directory contains the Snakemake config file as well as ruls specific config files of input and output files.

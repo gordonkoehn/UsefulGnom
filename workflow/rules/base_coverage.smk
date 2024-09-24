@@ -97,10 +97,10 @@ rule mutation_statistics:
         location = "{location}",
         enddate = "{enddate}"
     output:
-        heatmap = OUTDIR + "{location}/heatmapC23039G_G22599C_{location}_{enddate}.pdf",
-        lineplot = OUTDIR + "{location}/lineplotC23039G_G22599C_{location}_{enddate}.pdf",
+        heatmap = OUTDIR + "{location}/heatmap_{location}_{enddate}.pdf",
+        lineplot = OUTDIR + "{location}/lineplot_{location}_{enddate}.pdf",
         frequency_data_matrix = OUTDIR + "{location}/frequency_data_matrix_{location}_{enddate}.csv",
-        mutations_statistics = OUTDIR + "{location}/mutations_statistics_C23039G_G22599C_{location}_{enddate}.csv"
+        mutations_statistics = OUTDIR + "{location}/mutations_statistics__{location}_{enddate}.csv"
     run:
         logging.info("Running mutation_statistics")
         # Median frequency with IQR
@@ -284,8 +284,8 @@ rule mutation_statistics_Zürich_2024_07_03:
     """ Run mutation_statistics for Zürich on and enddate 2024-07-03
     """ 
     input:
-        OUTDIR + "Zürich (ZH)/lineplotC23039G_G22599C_Zürich (ZH)_2024-07-03.pdf",
-        OUTDIR + "Zürich (ZH)/heatmapC23039G_G22599C_Zürich (ZH)_2024-07-03.pdf",
+        OUTDIR + "Zürich (ZH)/lineplot_Zürich (ZH)_2024-07-03.pdf",
+        OUTDIR + "Zürich (ZH)/heatmap_Zürich (ZH)_2024-07-03.pdf",
         OUTDIR + "Zürich (ZH)/frequency_data_matrix_Zürich (ZH)_2024-07-03.csv",
-        OUTDIR + "Zürich (ZH)/mutations_statistics_C23039G_G22599C_Zürich (ZH)_2024-07-03.csv"
+        OUTDIR + "Zürich (ZH)/mutations_statistics__Zürich (ZH)_2024-07-03.csv"
 

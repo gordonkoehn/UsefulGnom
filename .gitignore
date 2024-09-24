@@ -1,5 +1,16 @@
+# Local file system
 .DS_Store
-poetry.lock
+
+# IDE
 .vscode/
+
+# Poetry
+poetry.lock
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.pyc
+
+# Snakemake
+workflow/.snakemake
+ .snakemake/

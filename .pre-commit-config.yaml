@@ -28,3 +28,18 @@ repos:
         language: node
         pass_filenames: true
         types: [python]
+  - repo: local
+    hooks:
+      - id: snakemake-lint
+        name: Snakemake Lint
+        entry: bash -c 'cd workflow && snakemake --lint'
+        language: system
+        files: (Snakefile|\.smk$)
+        pass_filenames: false
+
+      - id: snakemake-dryrun
+        name: Snakemake Dry Run
+        entry: bash -c 'cd workflow && snakemake --lint'
+        language: system
+        files: (Snakefile|\.smk$)
+        pass_filenames: false
