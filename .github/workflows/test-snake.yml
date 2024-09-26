@@ -49,9 +49,10 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -e .
+          pip install pytest
 
       - name: Snakemake Unit Testing
         run: |
-           poetry run pytest workflow/.test 
+          pytest workflow/.test 
 
       # TODO: add dry-run testing
