@@ -6,7 +6,6 @@ from pathlib import Path
 import subprocess as sp
 import os
 import pandas as pd
-import numpy as np
 
 import sys
 
@@ -88,28 +87,8 @@ def compare_csv_files(
     df2 = pd.read_csv(file2_path)
 
     if df1.shape != df2.shape:
-        return False
+        raise ValueError("DataFrames have different shapes")
 
-    for col in df1.columns:
-        print(f"Checking column {col}")
-        print(df1[col].dtype in ["float64", "int64"])
-        if df1[col].dtype in ["float64", "int64"]:
-            if not np.allclose(df1[col], df2[col], rtol=tolerance, atol=tolerance):
-                diff = df1[col] - df2[col]
-                print(f"Differences in column {col}:\n{diff[diff.abs() > tolerance]}")
-                print(
-                    f"Raw values in {col} (file1):\n{df1[col][diff.abs() > tolerance]}"
-                )
-                print(
-                    f"Raw values in {col} (file2):\n{df2[col][diff.abs() > tolerance]}"
-                )
-                return False
-        else:
-            if not (df1[col] == df2[col]).all():
-                diff = df1[col] != df2[col]
-                print(f"Differences in column {col}:\n{df1[diff]}")
-                print(f"Raw values in {col} (file1):\n{df1[col][diff]}")
-                print(f"Raw values in {col} (file2):\n{df2[col][diff]}")
-                return False
+    pd.testing.assert_frame_equal(df1, df2, rtol=tolerance, atol=tolerance)
 
     return True
