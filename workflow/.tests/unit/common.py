@@ -89,9 +89,10 @@ def compare_csv_files(
     if df1.shape != df2.shape:
         raise ValueError("DataFrames have different shapes")
 
-    print(df1.dtypes)
-    print(df2.dtypes)
+    # check that the data frames contrain the same data types
+    assert df1.dtypes.equals(df2.dtypes)
 
+    # check that the data frames contain the same data
     pd.testing.assert_frame_equal(
         df1, df2, check_exact=False, rtol=tolerance, atol=tolerance
     )
