@@ -93,9 +93,13 @@ def compare_csv_files(
     for col in df1.columns:
         if df1[col].dtype in ["float64", "int64"]:
             if not np.allclose(df1[col], df2[col], rtol=tolerance, atol=tolerance):
+                diff = df1[col] - df2[col]
+                print(f"Differences in column {col}:\n{diff[diff.abs() > tolerance]}")
                 return False
         else:
             if not (df1[col] == df2[col]).all():
+                diff = df1[col] != df2[col]
+                print(f"Differences in column {col}:\n{df1[diff]}")
                 return False
 
     return True
