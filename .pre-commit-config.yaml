@@ -37,7 +37,7 @@ repos:
     hooks:
       - id: snakemake-unit-testing
         name: Snakemake Unit Testing
-        entry: bash -c 'poetry run pytest workflow/.test'
+        entry: bash -c 'poetry run pytest workflow/.tests'
         language: system
         types: [python]
 

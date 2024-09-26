@@ -9,15 +9,15 @@ rule relative_amplicon_coverage_per_batch:
     Calculate the relative amplicon coverage for all samples in the batch specific samples{batch}.tsv file.
     """
     input:
-        sample_list = config['sample_list_dir'] + "samples{batch}.tsv",
-        samples = config['sample_dir']
+        sample_list=config["sample_list_dir"] + "samples{batch}.tsv",
+        samples=config["sample_dir"],
     output:
-        heatmap = config["output_dir"] + "{batch}/cov_heatmap.pdf",
+        heatmap=config["output_dir"] + "{batch}/cov_heatmap.pdf",
     params:
-        primers_fp ="../resources/amplicon_cov/articV3primers.bed",
-        output_dir = config["output_dir"] + "{batch}/"
+        primers_fp="../resources/amplicon_cov/articV3primers.bed",
+        output_dir=config["output_dir"] + "{batch}/",
     log:
-        config["output_dir"] + "relative_amplicon_coverage_per_batch/{batch}.log"
+        config["output_dir"] + "relative_amplicon_coverage_per_batch/{batch}.log",
     shell:
         """
         mkdir -p {params.output_dir}
@@ -33,19 +33,20 @@ rule relative_amplicon_coverage_per_batch:
 
 rule get_samples_per_batch:
     input:
-        samples_list = config['sample_list_dir'] + "samples.tsv"
+        samples_list=config["sample_list_dir"] + "samples.tsv",
     output:
-        samples_batch = config['sample_list_dir'] + "samples{batch}.tsv",
+        samples_batch=config["sample_list_dir"] + "samples{batch}.tsv",
     log:
-        config["output_dir"] + "get_samples_per_batch_{batch}.log"
+        config["output_dir"] + "get_samples_per_batch_{batch}.log",
     shell:
         """
         grep {wildcards.batch} {input.samples_list} > {output.samples_batch}
         """
+
 
 rule get_coverage_for_batch:
     """
     Calculate the relative amplicon coverage for all samples in the batch specific samples{batch}.tsv file.
     """
     input:
-        samples = f"{config['output_dir']}20240705_AAFH52MM5/cov_heatmap.pdf",
+        samples=f"{config['output_dir']}20240705_AAFH52MM5/cov_heatmap.pdf",

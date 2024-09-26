@@ -5,6 +5,8 @@ Common code for unit testing of rules generated with Snakemake 8.18.2.
 from pathlib import Path
 import subprocess as sp
 import os
+import pandas as pd
+import numpy as np
 
 import sys
 
@@ -74,3 +76,26 @@ class OutputChecker:
         Compare the generated file with the expected file.
         """
         sp.check_output(["cmp", generated_file, expected_file])
+
+
+def compare_csv_files(
+    file1_path: str, file2_path: str, tolerance: float = 1e-9
+) -> bool:
+    """
+    Compare two CSV files with a given tolerance.
+    """
+    df1 = pd.read_csv(file1_path)
+    df2 = pd.read_csv(file2_path)
+
+    if df1.shape != df2.shape:
+        return False
+
+    for col in df1.columns:
+        if df1[col].dtype in ["float64", "int64"]:
+            if not np.allclose(df1[col], df2[col], rtol=tolerance, atol=tolerance):
+                return False
+        else:
+            if not (df1[col] == df2[col]).all():
+                return False
+
+    return True

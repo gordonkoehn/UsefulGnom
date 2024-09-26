@@ -27,17 +27,18 @@ rule basecnt_coverage_depth:
     """Generate matrix of coverage depth per base position
     """
     input:
-        mutations_of_interest = config["mutations_of_interest_dir"],
-        timeline = config["timeline_fp"]
+        mutations_of_interest=config["mutations_of_interest_dir"],
+        timeline=config["timeline_fp"],
     output:
-        output_file = config["outdir"] + "{location}/mut_base_coverage_{location}_{enddate}.csv"
+        output_file=config["outdir"]
+        + "{location}/mut_base_coverage_{location}_{enddate}.csv",
     params:
-        startdate = "2024-01-01",
-        enddate = "{enddate}",
-        location = "{location}",
+        startdate="2024-01-01",
+        enddate="{enddate}",
+        location="{location}",
         # TODO: add protocol and subset params, see extract_sample_ID
     log:
-        "logs/basecnt_coverage_depth/{location}_{enddate}.log"
+        "logs/basecnt_coverage_depth/{location}_{enddate}.log",
     run:
         logging.info("Running basecnt_coverage_depth")
         ug.analyze.run_basecnt_coverage(
@@ -45,27 +46,28 @@ rule basecnt_coverage_depth:
             timeline_file_dir=input.timeline,
             mutations_of_interest_dir=input.mutations_of_interest,
             output_file=output.output_file,
-            startdate = params.startdate,
-            enddate = params.enddate,
-            location = params.location
+            startdate=params.startdate,
+            enddate=params.enddate,
+            location=params.location,
         )
 
 
 rule total_coverage_depth:
     """ Calcultate the total coverage depth
-    """ 
+    """
     input:
-        mutations_of_interest = config["mutations_of_interest_dir"],
-        timeline = config["timeline_fp"]
+        mutations_of_interest=config["mutations_of_interest_dir"],
+        timeline=config["timeline_fp"],
     output:
-        output_file = config["outdir"] + "{location}/mut_total_coverage_{location}_{enddate}.csv"
+        output_file=config["outdir"]
+        + "{location}/mut_total_coverage_{location}_{enddate}.csv",
     params:
-        startdate = "2024-01-01",
-        enddate = "{enddate}",
-        location = "{location}",
+        startdate="2024-01-01",
+        enddate="{enddate}",
+        location="{location}",
         # TODO: add protocol and subset params, see extract_sample_ID
     log:
-        "logs/basecnt_coverage_depth/{location}_{enddate}.log"
+        "logs/basecnt_coverage_depth/{location}_{enddate}.log",
     run:
         logging.info("Running total_coverage_depth")
         ug.analyze.run_total_coverage_depth(
@@ -73,28 +75,33 @@ rule total_coverage_depth:
             mutations_of_interest_fp=input.mutations_of_interest,
             timeline_file_dir=input.timeline,
             output_file=output.output_file,
-            startdate = params.startdate,
-            enddate = params.enddate,
-            location = params.location
+            startdate=params.startdate,
+            enddate=params.enddate,
+            location=params.location,
         )
+
 
 # snakemake lint=off
 rule mutation_statistics:
     """Compute mutation frequencies from the basecnt and general coverages and report the statistics
     """
     input:
-        basecnt_coverage = config["outdir"] + "{location}/mut_base_coverage_{location}_{enddate}.csv",
-        total_coverage = config["outdir"] + "{location}/mut_total_coverage_{location}_{enddate}.csv"
+        basecnt_coverage=config["outdir"]
+        + "{location}/mut_base_coverage_{location}_{enddate}.csv",
+        total_coverage=config["outdir"]
+        + "{location}/mut_total_coverage_{location}_{enddate}.csv",
     params:
-        location = "{location}",
-        enddate = "{enddate}"
+        location="{location}",
+        enddate="{enddate}",
     log:
-        "logs/basecnt_coverage_depth/{location}_{enddate}.log"
+        "logs/basecnt_coverage_depth/{location}_{enddate}.log",
     output:
-        heatmap = config["outdir"] + "{location}/heatmap_{location}_{enddate}.pdf",
-        lineplot = config["outdir"] + "{location}/lineplot_{location}_{enddate}.pdf",
-        frequency_data_matrix = config["outdir"] + "{location}/frequency_data_matrix_{location}_{enddate}.csv",
-        mutations_statistics = config["outdir"] + "{location}/mutations_statistics__{location}_{enddate}.csv"
+        heatmap=config["outdir"] + "{location}/heatmap_{location}_{enddate}.pdf",
+        lineplot=config["outdir"] + "{location}/lineplot_{location}_{enddate}.pdf",
+        frequency_data_matrix=config["outdir"]
+        + "{location}/frequency_data_matrix_{location}_{enddate}.csv",
+        mutations_statistics=config["outdir"]
+        + "{location}/mutations_statistics__{location}_{enddate}.csv",
     run:
         logging.info("Running mutation_statistics")
         # Median frequency with IQR
@@ -128,7 +135,9 @@ rule mutation_statistics:
         df = frequency_data_matrix.transpose()
         sns.set_style("white")
 
-        g = sns.heatmap(df, yticklabels=samples, cmap="Blues", linewidths=0, linecolor="none")
+        g = sns.heatmap(
+            df, yticklabels=samples, cmap="Blues", linewidths=0, linecolor="none"
+        )
 
         fig = g.get_figure()
         plt.yticks(rotation=0, fontsize=8)
@@ -152,27 +161,27 @@ rule mutation_statistics:
         # LINE PLOT
         explanatory_labels = {
             "C23039G": "C23039G (KP.3)",
-            "G22599C": "G22599C (KP.2)",
-        }
+                "G22599C": "G22599C (KP.2)",
+            }
 
-        # Plot line plot
-        sns.set(rc={"figure.figsize": (10, 5)})
-        sns.set_style("white")
+            # Plot line plot
+            sns.set(rc={"figure.figsize": (10, 5)})
+            sns.set_style("white")
 
-        # Transpose the DataFrame to have samples as columns
-        df = frequency_data_matrix.transpose()
+            # Transpose the DataFrame to have samples as columns
+            df = frequency_data_matrix.transpose()
 
-        # Create the line plot
-        fig, ax = plt.subplots()
+            # Create the line plot
+            fig, ax = plt.subplots()
 
-        # Plot each sample
-        for sample in df.columns:
-            explanatory_label = explanatory_labels.get(sample, sample)
-            ax.plot(
+            # Plot each sample
+            for sample in df.columns:
+                explanatory_label = explanatory_labels.get(sample, sample)
+                ax.plot(
                 df.index, df[sample], label=explanatory_label, marker="o"
             )  # 'o' adds points to the line plot
 
-        # Customize the plot
+            # Customize the plot
         plt.xticks(rotation=45, fontsize=6, ha="right")
         plt.yticks(fontsize=8)
         plt.xlabel("Day", fontsize=10)
@@ -208,7 +217,9 @@ rule mutation_statistics:
         iqr = q3 - q1
 
         # Combine results into a DataFrame
-        results_2_weeks = pd.DataFrame({"Median": medians, "IQR": iqr, "Q1": q1, "Q3": q3})
+        results_2_weeks = pd.DataFrame(
+            {"Median": medians, "IQR": iqr, "Q1": q1, "Q3": q3}
+        )
 
         # select most recent 6 weeks
         six_weeks_ago = most_recent_date - timedelta(weeks=6)
@@ -221,7 +232,9 @@ rule mutation_statistics:
         iqr = q3 - q1
 
         # Combine results into a DataFrame
-        results_6_weeks = pd.DataFrame({"Median": medians, "IQR": iqr, "Q1": q1, "Q3": q3})
+        results_6_weeks = pd.DataFrame(
+            {"Median": medians, "IQR": iqr, "Q1": q1, "Q3": q3}
+        )
 
         # select most recent 12 weeks (3 months)
         three_months_ago = most_recent_date - timedelta(weeks=12)
@@ -234,7 +247,9 @@ rule mutation_statistics:
         iqr = q3 - q1
 
         # Combine results into a DataFrame
-        results_12_weeks = pd.DataFrame({"Median": medians, "IQR": iqr, "Q1": q1, "Q3": q3})
+        results_12_weeks = pd.DataFrame(
+            {"Median": medians, "IQR": iqr, "Q1": q1, "Q3": q3}
+        )
 
         # select most recent 24 weeks (6 months)
         six_months_ago = most_recent_date - timedelta(weeks=24)
@@ -247,7 +262,9 @@ rule mutation_statistics:
         iqr = q3 - q1
 
         # Combine results into a DataFrame
-        results_24_weeks = pd.DataFrame({"Median": medians, "IQR": iqr, "Q1": q1, "Q3": q3})
+        results_24_weeks = pd.DataFrame(
+            {"Median": medians, "IQR": iqr, "Q1": q1, "Q3": q3}
+        )
 
         # Combine information about each mutation into a single df
         dict_mut = {}
@@ -273,14 +290,17 @@ rule mutation_statistics:
         )
         logging.info("Saved mutation statistics")
 
+
 # snakemake lint=on
+
 
 rule mutation_statistics_Zürich_2024_07_03:
     """ Run mutation_statistics for Zürich on and enddate 2024-07-03
-    """ 
+    """
     input:
         config["outdir"] + "Zürich (ZH)/lineplot_Zürich (ZH)_2024-07-03.pdf",
         config["outdir"] + "Zürich (ZH)/heatmap_Zürich (ZH)_2024-07-03.pdf",
-        config["outdir"] + "Zürich (ZH)/frequency_data_matrix_Zürich (ZH)_2024-07-03.csv",
-        config["outdir"] + "Zürich (ZH)/mutations_statistics__Zürich (ZH)_2024-07-03.csv"
-
+        config["outdir"]
+        + "Zürich (ZH)/frequency_data_matrix_Zürich (ZH)_2024-07-03.csv",
+        config["outdir"]
+        + "Zürich (ZH)/mutations_statistics__Zürich (ZH)_2024-07-03.csv",
