@@ -27,7 +27,7 @@ jobs:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: branch_name
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DISABLE_ERRORS: true
+          DISABLE_ERRORS: true # Optional: Disable all errors, just give warnings
           PYTHON_FLAKE8_CONFIG_FILE: .flake8
           VALIDATE_PYTHON_FLAKE8: true
           VALIDATE_SNAKEMAKE_SNAKEFMT: true
