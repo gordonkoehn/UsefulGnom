@@ -21,21 +21,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Run Snakefmt for Snakefile and .smk files
-        if: |
-          contains(github.event.head_commit.message, 'Snakefile') ||
-          contains(github.event.head_commit.message, '.smk') 
-        run: |
-          - name: Lint Code Base
-            uses: github/super-linter/slim@v5
-            env:
-              VALIDATE_ALL_CODEBASE: true
-              DEFAULT_BRANCH: branch_name
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              DISABLE_ERRORS: true # Optional: Disable all errors, just give warnings
-              PYTHON_FLAKE8_CONFIG_FILE: .flake8
-              VALIDATE_PYTHON_FLAKE8: true
-              VALIDATE_SNAKEMAKE_SNAKEFMT: true
+      # Run linting only if Snakefile or .smk changes are detected
+      # Run Super-Linter only on Snakefile and .smk files
+      - name: Lint Snakefiles Only
+        uses: github/super-linter/slim@v5
+        env:
+          VALIDATE_SNAKEMAKE_SNAKEFMT: true
+          FILTER_REGEX_INCLUDE: '(^Snakefile$|.*\.smk$)' # Only include Snakefile and .smk files
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISABLE_ERRORS: true # Optional: Disable errors, only warnings
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
