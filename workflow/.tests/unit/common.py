@@ -95,11 +95,19 @@ def compare_csv_files(
             if not np.allclose(df1[col], df2[col], rtol=tolerance, atol=tolerance):
                 diff = df1[col] - df2[col]
                 print(f"Differences in column {col}:\n{diff[diff.abs() > tolerance]}")
+                print(
+                    f"Raw values in {col} (file1):\n{df1[col][diff.abs() > tolerance]}"
+                )
+                print(
+                    f"Raw values in {col} (file2):\n{df2[col][diff.abs() > tolerance]}"
+                )
                 return False
         else:
             if not (df1[col] == df2[col]).all():
                 diff = df1[col] != df2[col]
                 print(f"Differences in column {col}:\n{df1[diff]}")
+                print(f"Raw values in {col} (file1):\n{df1[col][diff]}")
+                print(f"Raw values in {col} (file2):\n{df2[col][diff]}")
                 return False
 
     return True
