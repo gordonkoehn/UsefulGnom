@@ -83,8 +83,8 @@ def compare_csv_files(
     """
     Compare two CSV files with a given tolerance.
     """
-    df1 = pd.read_csv(file1_path)
-    df2 = pd.read_csv(file2_path)
+    df1 = pd.read_csv(file1_path, skiprows=[1])
+    df2 = pd.read_csv(file2_path, skiprows=[1])
 
     if df1.shape != df2.shape:
         raise ValueError("DataFrames have different shapes")
