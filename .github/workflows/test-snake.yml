@@ -24,7 +24,7 @@ jobs:
       - name: Lint Code Base
         uses: github/super-linter/slim@v5
         env:
-          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: branch_name
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISABLE_ERRORS: true
