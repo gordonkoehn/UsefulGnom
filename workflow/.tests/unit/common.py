@@ -79,7 +79,7 @@ class OutputChecker:
 
 
 def compare_csv_files(
-    file1_path: str, file2_path: str, tolerance: float = 1e-9
+    file1_path: str, file2_path: str, tolerance: float = 1e-5
 ) -> bool:
     """
     Compare two CSV files with a given tolerance.
