@@ -162,17 +162,18 @@ rule mutation_statistics:
         explanatory_labels = {
             "C23039G": "C23039G (KP.3)",
                 "G22599C": "G22599C (KP.2)",
+
         }
 
-        # Plot line plot
-        sns.set(rc={"figure.figsize": (10, 5)})
-        sns.set_style("white")
+            # Plot line plot
+            sns.set(rc={"figure.figsize": (10, 5)})
+            sns.set_style("white")
 
-        # Transpose the DataFrame to have samples as columns
-        df = frequency_data_matrix.transpose()
+            # Transpose the DataFrame to have samples as columns
+            df = frequency_data_matrix.transpose()
 
-        # Create the line plot
-        fig, ax = plt.subplots()
+            # Create the line plot
+            fig, ax = plt.subplots()
 
         # Plot each sample
         for sample in df.columns:
@@ -180,6 +181,7 @@ rule mutation_statistics:
             ax.plot(
             df.index, df[sample], label=explanatory_label, marker="o"
         )  # 'o' adds points to the line plot
+
 
             # Customize the plot
         plt.xticks(rotation=45, fontsize=6, ha="right")

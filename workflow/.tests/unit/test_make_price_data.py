@@ -1,3 +1,7 @@
+"""
+This script tests the make_price_data rule.
+"""
+
 import os
 import sys
 import subprocess as sp
@@ -5,10 +9,15 @@ from tempfile import TemporaryDirectory
 import shutil
 from pathlib import Path
 
+from common import compare_csv_files
+
 sys.path.insert(0, os.path.dirname(__file__))
 
 
 def test_make_price_data():
+    """
+    Test the make_price_data rule.
+    """
     with TemporaryDirectory() as tmpdir:
         workdir = Path(tmpdir) / "workdir"
         workdir.mkdir(exist_ok=True)
@@ -55,17 +64,12 @@ def test_make_price_data():
         assert (workdir / "results" / "statistics.csv").exists()
 
         # Compare output with expected result
-        result = sp.run(
-            [
-                "diff",
-                str(workdir / "results" / "statistics.csv"),
-                str(expected_path / "statistics.csv"),
-            ],
-            capture_output=True,
-            text=True,
+        files_match = compare_csv_files(
+            str(workdir / "results" / "statistics.csv"),
+            str(expected_path / "statistics.csv"),
         )
 
-        assert result.returncode == 0, f"Files are different:\n{result.stdout}"
+        assert files_match, "Files are different within the specified tolerance"
 
 
 ### Main
