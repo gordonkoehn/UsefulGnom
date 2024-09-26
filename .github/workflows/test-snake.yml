@@ -53,6 +53,6 @@ jobs:
 
       - name: Snakemake Unit Testing
         run: |
-          pytest workflow/.test 
+          pytest workflow/.tests 
 
       # TODO: add dry-run testing
