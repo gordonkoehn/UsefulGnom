@@ -49,6 +49,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -e .
+          pip install pytest
 
       - name: Snakemake Testing
         run: |

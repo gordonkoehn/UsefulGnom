@@ -22,6 +22,7 @@ import seaborn as sns
 
 configfile: "config/base_coverage.yaml"
 
+
 # TODO: add protocol and subset params, see extract_sample_ID
 rule basecnt_coverage_depth:
     """Generate matrix of coverage depth per base position
@@ -50,7 +51,10 @@ rule basecnt_coverage_depth:
             location=params.location,
         )
 
- # TODO: add protocol and subset params, see extract_sample_ID
+        # TODO: add protocol and subset params, see extract_sample_ID
+
+
+
 rule total_coverage_depth:
     """ Calcultate the total coverage depth
     """
@@ -127,7 +131,7 @@ rule mutation_statistics:
         )
         logging.info("Saved frequency data matrix")
 
-        sns.set(rc={"figure.figsize": (8, 8)})
+        sns.set(rc = {"figure.figsize": (8 , 8)})  # fmt: skip
         samples = frequency_data_matrix.columns.to_list()
         # plot heatmap in normal scale
         df = frequency_data_matrix.transpose()
@@ -157,25 +161,27 @@ rule mutation_statistics:
 
         #####################################
         # LINE PLOT
+        # fmt: off
         explanatory_labels = {
-            "C23039G": "C23039G (KP.3)",
-                "G22599C": "G22599C (KP.2)",
-            }
+        "C23039G": "C23039G (KP.3)",
+        "G22599C": "G22599C (KP.2)",
+        }
 
-            # Plot line plot
-            sns.set(rc={"figure.figsize": (10, 5)})
-            sns.set_style("white")
+        sns.set(rc = {"figure.figsize": (10 , 5)})
+        sns.set_style("white")
 
-            # Transpose the DataFrame to have samples as columns
-            df = frequency_data_matrix.transpose()
+        # fmt: on
 
-            # Create the line plot
-            fig, ax = plt.subplots()
+        # Transpose the DataFrame to have samples as columns
+        df = frequency_data_matrix.transpose()
 
-            # Plot each sample
-            for sample in df.columns:
-                explanatory_label = explanatory_labels.get(sample, sample)
-                ax.plot(
+        # Create the line plot
+        fig, ax = plt.subplots()
+
+        # Plot each sample
+        for sample in df.columns:
+            explanatory_label = explanatory_labels.get(sample, sample)
+            ax.plot(
                 df.index, df[sample], label=explanatory_label, marker="o"
             )  # 'o' adds points to the line plot
 
