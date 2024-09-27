@@ -29,9 +29,9 @@ def test_make_price_data():
 
         # Define paths
         mock_data_path = Path(
-            "workflow/.tests/unit/make_price_data/data/AMZN_2012-06-21_34200000_57600000_message_1.csv"
+            "workflow/.tests/unit/smk_testing/data/AMZN_2012-06-21_34200000_57600000_message_1.csv"
         )
-        expected_path = Path("workflow/.tests/unit/make_price_data/expected")
+        expected_path = Path("workflow/.tests/unit/smk_testing/expected")
         config_path = Path("config/smk_testing_config.yaml")
 
         # Copy config to the temporary workdir
