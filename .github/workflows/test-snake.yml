@@ -52,6 +52,6 @@ jobs:
 
       - name: Snakemake Testing
         run: |
-          snakemake --cores 1 --snakefile workflow/Snakefile --directory .test --verbose
+          snakemake --cores 1 --snakefile workflow/Snakefile --verbose
 
       
