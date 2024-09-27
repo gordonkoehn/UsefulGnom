@@ -1,5 +1,7 @@
 """
-This script tests the make_price_data rule.
+Test of make_price_data rule
+
+This is a mock test trying to understand how one can test snakmake rules.
 """
 
 import os
@@ -9,14 +11,14 @@ from tempfile import TemporaryDirectory
 import shutil
 from pathlib import Path
 
-from common import compare_csv_files
-
 sys.path.insert(0, os.path.dirname(__file__))
 
 
 def test_make_price_data():
     """
     Test the make_price_data rule.
+
+    Check if the rule generates the expected output.
     """
     with TemporaryDirectory() as tmpdir:
         workdir = Path(tmpdir) / "workdir"
@@ -29,9 +31,9 @@ def test_make_price_data():
 
         # Define paths
         mock_data_path = Path(
-            "workflow/.tests/integrations/AMZN_2012-06-21_34200000_57600000_message_1.csv"
+            "workflow/.tests/unit/smk_testing/data/AMZN_2012-06-21_34200000_57600000_message_1.csv"
         )
-        expected_path = Path("workflow/.tests/unit/make_price_data/expected")
+        expected_path = Path("workflow/.tests/unit/smk_testing/expected")
         config_path = Path("config/smk_testing_config.yaml")
 
         # Copy config to the temporary workdir
@@ -64,15 +66,25 @@ def test_make_price_data():
         assert (workdir / "results" / "statistics.csv").exists()
 
         # Compare output with expected result
-        files_match = compare_csv_files(
-            str(workdir / "results" / "statistics.csv"),
-            str(expected_path / "statistics.csv"),
+        result = sp.run(
+            [
+                "diff",
+                str(workdir / "results" / "statistics.csv"),
+                str(expected_path / "statistics.csv"),
+            ],
+            capture_output=True,
+            text=True,
         )
 
-        assert files_match, "Files are different within the specified tolerance"
+        assert result.returncode == 0, f"Files are different:\n{result.stdout}"
 
 
 ### Main
 if __name__ == "__main__":
-    test_make_price_data()
-    print("Test passed!")
+    try:
+        test_make_price_data()
+        print("Test passed!")
+    except AssertionError as e:
+        print(f"Test failed: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")

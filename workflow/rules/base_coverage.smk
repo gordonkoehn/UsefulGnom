@@ -22,7 +22,7 @@ import seaborn as sns
 
 configfile: "config/base_coverage.yaml"
 
-
+# TODO: add protocol and subset params, see extract_sample_ID
 rule basecnt_coverage_depth:
     """Generate matrix of coverage depth per base position
     """
@@ -36,7 +36,6 @@ rule basecnt_coverage_depth:
         startdate="2024-01-01",
         enddate="{enddate}",
         location="{location}",
-        # TODO: add protocol and subset params, see extract_sample_ID
     log:
         "logs/basecnt_coverage_depth/{location}_{enddate}.log",
     run:
@@ -51,7 +50,7 @@ rule basecnt_coverage_depth:
             location=params.location,
         )
 
-
+ # TODO: add protocol and subset params, see extract_sample_ID
 rule total_coverage_depth:
     """ Calcultate the total coverage depth
     """
@@ -65,7 +64,6 @@ rule total_coverage_depth:
         startdate="2024-01-01",
         enddate="{enddate}",
         location="{location}",
-        # TODO: add protocol and subset params, see extract_sample_ID
     log:
         "logs/basecnt_coverage_depth/{location}_{enddate}.log",
     run:
@@ -162,8 +160,7 @@ rule mutation_statistics:
         explanatory_labels = {
             "C23039G": "C23039G (KP.3)",
                 "G22599C": "G22599C (KP.2)",
-
-        }
+            }
 
             # Plot line plot
             sns.set(rc={"figure.figsize": (10, 5)})
@@ -175,13 +172,12 @@ rule mutation_statistics:
             # Create the line plot
             fig, ax = plt.subplots()
 
-        # Plot each sample
-        for sample in df.columns:
-            explanatory_label = explanatory_labels.get(sample, sample)
-            ax.plot(
-            df.index, df[sample], label=explanatory_label, marker="o"
-        )  # 'o' adds points to the line plot
-
+            # Plot each sample
+            for sample in df.columns:
+                explanatory_label = explanatory_labels.get(sample, sample)
+                ax.plot(
+                df.index, df[sample], label=explanatory_label, marker="o"
+            )  # 'o' adds points to the line plot
 
             # Customize the plot
         plt.xticks(rotation=45, fontsize=6, ha="right")

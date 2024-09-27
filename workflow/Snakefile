@@ -13,4 +13,5 @@ include: "rules/smk_testing.smk"
 
 rule all:
     input:
-        "../results/statistics.csv",
+        #"../results/statistics.csv",
+        "results/20240705_AAFH52MM5/cov_heatmap.pdf",

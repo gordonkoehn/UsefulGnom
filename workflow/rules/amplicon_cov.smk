@@ -14,8 +14,8 @@ rule relative_amplicon_coverage_per_batch:
     output:
         heatmap=config["output_dir"] + "{batch}/cov_heatmap.pdf",
     params:
-        primers_fp = config["primers_fp"],
-        output_dir = config["output_dir"] + "{batch}/"
+        primers_fp=config["primers_fp"],
+        output_dir=config["output_dir"] + "{batch}/",
     log:
         config["output_dir"] + "relative_amplicon_coverage_per_batch/{batch}.log",
     shell:
@@ -53,5 +53,4 @@ rule get_coverage_for_batch:
     Calculate the relative amplicon coverage for all samples in the batch specific samples{batch}.tsv file.
     """
     input:
-        samples = f"{config['output_dir']}{config["batch"]}/cov_heatmap.pdf",
-
+        samples=f"{config['output_dir']}{config['batch']}/cov_heatmap.pdf",
