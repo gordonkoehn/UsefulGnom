@@ -32,21 +32,3 @@ repos:
     rev: v0.10.2 
     hooks:
       - id: snakefmt
-
-  - repo: local
-    hooks:
-      - id: snakemake-unit-testing
-        name: Snakemake Unit Testing
-        entry: bash -c 'poetry run pytest workflow/.tests'
-        language: system
-        types: [python]
-
-# TODO enable dry-run testing
-  # - repo: local
-  #   hooks:
-  #     - id: snakemake-dryrun
-  #       name: Snakemake Dry Run
-  #       entry: bash -c 'cd workflow && poetry run snakemake -n'
-  #       language: system
-  #       files: (Snakefile|\.smk$)
-  #       pass_filenames: false

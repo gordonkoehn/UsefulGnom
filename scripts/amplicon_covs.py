@@ -91,6 +91,7 @@ def load_bedfile(bed: Path) -> pd.DataFrame:
     Returns:
         pd.DataFrame: DataFrame with parsed bedfile.
     """
+
     bedfile = pd.read_table(bed, header=None)
 
     # Apply regex operations

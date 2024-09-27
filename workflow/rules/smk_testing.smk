@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 
 # Use the specific config file for this test
-configfile: "../config/smk_testing_config.yaml"
+configfile: "config/smk_testing_config.yaml"
 
 
 rule make_price_data:

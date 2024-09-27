@@ -51,8 +51,8 @@ jobs:
           pip install -e .
           pip install pytest
 
-      - name: Snakemake Unit Testing
+      - name: Snakemake Testing
         run: |
           pytest workflow/.tests 
 
-      # TODO: add dry-run testing
+      

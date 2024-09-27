@@ -14,7 +14,6 @@ seaborn = "^0.13.2"
 pandas-stubs = "^2.2.2.240807"
 click = "^8.1.7"
 snakemake = "^8.20.4"
-interrogate = "^1.7.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.1"
