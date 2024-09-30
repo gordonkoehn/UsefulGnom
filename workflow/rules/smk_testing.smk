@@ -28,6 +28,9 @@ rule make_price_data:
         statistics = data.groupby(pd.cut(data["Time"], bins=bounds)).agg(
             ["mean", "std", "min", "max"]
         )
+        # filter for just one column price mean and add 30 for error checking
+        statistics = statistics["Price"]["mean"] + 30
+        # current tollerance threshold is somewher around 250
 
         # save the statistics
         statistics.to_csv(output.statistics, index=False)
