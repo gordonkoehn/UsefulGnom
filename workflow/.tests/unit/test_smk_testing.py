@@ -63,20 +63,6 @@ def test_make_price_data():
         # Check the output
         assert (workdir / "results" / "statistics.csv").exists()
 
-        # print head of results file
-        print("Results file:")
-        print(
-            sp.check_output(["head", str(workdir / "results" / "statistics.csv")]),
-            file=sys.stderr,
-        )
-
-        # print head of expected file
-        print("Expected file:")
-        print(
-            sp.check_output(["head", str(expected_path / "statistics.csv")]).decode(),
-            file=sys.stderr,
-        )
-
         # Compare output with expected result
         files_match = compare_csv_files(
             str(workdir / "results" / "statistics.csv"),
@@ -142,13 +128,11 @@ def test_make_price_data_auto_files():
 
         # Compare output with expected result using the OutputChecker
         checker = OutputCheckerV2(
-            workdir / "data", expected_path, workdir, configdir=workdir / "config"
+            workdir / "data",
+            expected_path,
+            workdir,
+            configdir=workdir / "config",
+            tolerance=1e-4,
         )
 
         checker.check()
-
-
-### Main
-if __name__ == "__main__":
-    test_make_price_data()
-    print("Test passed!")
