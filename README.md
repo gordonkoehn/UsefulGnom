@@ -43,15 +43,18 @@ $ pytest
 ```
 
 ### Existing code quality checks
-The code quality checks run on GitHub can be seen in ``.github/workflows/test.yml``.
+The code quality checks run on GitHub can be seen in
+ - ``.github/workflows/test.yml`` for the python package CI/CD,
+ - ``.github/workflows/test-snake.yml`` for the snakemake workflow CI.
 
 We are using:
 
   * [Ruff](https://github.com/charliermarsh/ruff) to lint the code.
   * [Black](https://github.com/psf/black) to format the code.
   * [Pyright](https://github.com/microsoft/pyright) to check the types.
-  * [Pytest](https://docs.pytest.org/) to run the unit tests.
+  * [Pytest](https://docs.pytest.org/) to run the unit tests code and workflows.
   * [Interrogate](https://interrogate.readthedocs.io/) to check the documentation.
+  * [Snakefmt](https://github.com/snakemake/snakefmt) to format snakemake workflows.
 
 
 ### Workflow
@@ -63,10 +66,7 @@ We recommend submitting small pull requests and starting with drafts outlining p
 
 
 
-_____
+### Currently Implemented
 
-
-Auguste's scripts for 
- - 1) calculating basecnt coverage depth, 
- - 2) total coverage depth and 
- - 3) computing frequency matrix+calculating mutations statistics
+- Calulating Base Coverage Depth and Mutation Statistics, adapoted from @AugusteRi
+- Calulating Amplicon Coverage, adapoted from @dr-david
