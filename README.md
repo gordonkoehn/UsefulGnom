@@ -43,7 +43,9 @@ $ pytest
 ```
 
 ### Existing code quality checks
-The code quality checks run on GitHub can be seen in ``.github/workflows/test.yml``.
+The code quality checks run on GitHub can be seen in
+ - ``.github/workflows/test.yml`` for the python package CI/CD,
+ - ``.github/workflows/test-snake.yml`` for the snakemake workflow CI.
 
 We are using:
 
