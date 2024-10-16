@@ -1,4 +1,10 @@
-"""Implements the relative amplicon coverage."""
+"""Implements the relative amplicon coverage.
+   exploiting no overlapping positions in the amplicons.
+   
+    Credits:
+        - core code: @dr-david (drdavid@student.ethz.ch)
+        - implementation: @koehng (koehng@ethz.ch)
+"""
 
 
 configfile: "config/amplicon_cov.smk"
