@@ -1,14 +1,15 @@
 #### Parameters
 # The name of the batch to process
-batch: "20240705_AAFH52MM5"
+batch: "20200729"
 
 ###### Inputs
 # where to find the list of samples i.e. samples.tsv
-sample_list_dir: "../../data/amplicon_cov_data/cluster/project/pangolin/work-amplicon-coverage/test_data/"
+sample_list_dir: "workflow/.tests/unit/amplicon_cov/data/subset_vpipe_smkdeploy/test_output_sars-cov-2/samples/"
+
 # where to find the samples from the list
-sample_dir: "../../data/amplicon_cov_data/cluster/project/pangolin/work-amplicon-coverage/test_data/samples"
+sample_dir: "workflow/.tests/unit/amplicon_cov/data/subset_vpipe_smkdeploy/test_output_sars-cov-2/results"
 # bed file with the primers
-primers_fp: "../../data/amplicon_cov_data/resources/amplicon_cov/articV3primers.bed"
+primers_fp: "workflow/.tests/unit/amplicon_cov/data/primer_schemes/articV3primers.bed"
 
 ##### Outputs
 output_dir: "results/"

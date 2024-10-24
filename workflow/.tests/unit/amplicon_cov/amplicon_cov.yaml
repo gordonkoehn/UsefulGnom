@@ -1,0 +1,15 @@
+#### Parameters
+# The name of the batch to process
+batch: "20200729"
+
+###### Inputs
+# where to find the list of samples i.e. samples.tsv
+sample_list_dir: "data/subset_vpipe_smkdeploy/test_output_sars-cov-2/samples/"
+
+# where to find the samples from the list
+sample_dir: "data/subset_vpipe_smkdeploy/test_output_sars-cov-2/results"
+# bed file with the primers
+primers_fp: "data/primer_schemes/articV3primers.bed"
+
+##### Outputs
+output_dir: ""
