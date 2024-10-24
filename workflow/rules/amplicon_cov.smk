@@ -7,7 +7,7 @@
 """
 
 
-configfile: "config/amplicon_cov.smk"
+configfile: "config/amplicon_cov.yaml"
 
 
 rule relative_amplicon_coverage_per_batch:
