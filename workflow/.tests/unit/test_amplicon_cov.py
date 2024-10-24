@@ -1,6 +1,5 @@
 """Tests for the `amplicon_cov` rules."""
 
-
 import os
 import subprocess as sp
 from tempfile import TemporaryDirectory
