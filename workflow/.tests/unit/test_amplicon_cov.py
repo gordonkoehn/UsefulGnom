@@ -35,11 +35,13 @@ def test_get_coverage_for_batch():
         (workdir / "config").mkdir(exist_ok=True)
         (workdir / "data").mkdir(exist_ok=True)
         (workdir / "results").mkdir(exist_ok=True)
+        (workdir / "scripts").mkdir(exist_ok=True)  # for the script
 
         # Define paths
         mock_data_path = Path("workflow/.tests/unit/amplicon_cov/data")
         expected_path = Path("workflow/.tests/unit/amplicon_cov/expected")
         config_path = Path("workflow/.tests/unit/amplicon_cov/amplicon_cov.yaml")
+        script_path = Path("scripts/amplicon_covs.py")
 
         # Copy config to the temporary workdir
         wrk_config_path = workdir / "config" / config_path.name
@@ -48,6 +50,7 @@ def test_get_coverage_for_batch():
         # Copy mock data to the temporary workdir
         wrk_mock_data_path = Path(workdir, "data")
         shutil.copytree(mock_data_path, wrk_mock_data_path, dirs_exist_ok=True)
+        shutil.copy(script_path, workdir / "scripts" / script_path.name)
 
         # Print the contents of the workdir
 
@@ -89,6 +92,7 @@ def test_get_coverage_for_batch():
             workdir,
             configdir=workdir / "config",
             tolerance=1e-4,
+            ignore_files=["pdf", "py", "log"],
         )
 
         checker.check()
