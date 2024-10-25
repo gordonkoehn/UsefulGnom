@@ -27,7 +27,6 @@ jobs:
         env:
           VALIDATE_SNAKEMAKE_SNAKEFMT: true
           FILTER_REGEX_INCLUDE: '(^Snakefile$|.*\.smk$)' # Only include Snakefile and .smk files
-          DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISABLE_ERRORS: false
 
