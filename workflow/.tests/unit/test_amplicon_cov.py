@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 import shutil
 from pathlib import Path
 
-from common import OutputCheckerV2
+from common import OutputChecker
 
 
 def print_directory_contents(path):
@@ -85,7 +85,7 @@ def test_get_coverage_for_batch():
                 print(f"  {file}")
 
         # Compare output with expected result using the OutputChecker
-        checker = OutputCheckerV2(
+        checker = OutputChecker(
             workdir / "data",
             expected_path,
             workdir,

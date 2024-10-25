@@ -11,33 +11,8 @@ from typing import List
 import csv
 import math
 
-import pandas as pd
 
-
-def compare_csv_files(
-    file1_path: str, file2_path: str, tolerance: float = 1e-4
-) -> bool:
-    """
-    Compare two CSV files with a given tolerance.
-    """
-    df1 = pd.read_csv(file1_path, skiprows=[1])
-    df2 = pd.read_csv(file2_path, skiprows=[1])
-
-    if df1.shape != df2.shape:
-        raise ValueError("DataFrames have different shapes")
-
-    # check that the data frames contrain the same data types
-    assert df1.dtypes.equals(df2.dtypes)
-
-    # check that the data frames contain the same data
-    pd.testing.assert_frame_equal(
-        df1, df2, check_exact=False, rtol=tolerance, atol=tolerance
-    )
-
-    return True
-
-
-class OutputCheckerV2:
+class OutputChecker:
     """
     Check the output of a Snakemake rule given only the directories
     of the input data, expected output, and the working directory and
