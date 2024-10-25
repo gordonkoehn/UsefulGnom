@@ -49,6 +49,7 @@ jobs:
         run: |
           pip install -e .
           pip install pytest
+          pip install snakefmt==0.10.2
       - name: Snakemake Linting
         run: |
           snakefmt workflow/
