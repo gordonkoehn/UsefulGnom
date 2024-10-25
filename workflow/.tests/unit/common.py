@@ -2,40 +2,17 @@
 Common code for unit testing of rules generated with Snakemake 8.18.2.
 """
 
-from pathlib import Path
 import os
-import pandas as pd
+import sys
+
+from pathlib import Path
+from typing import List
 
 import csv
 import math
 
-import sys
 
-
-def compare_csv_files(
-    file1_path: str, file2_path: str, tolerance: float = 1e-4
-) -> bool:
-    """
-    Compare two CSV files with a given tolerance.
-    """
-    df1 = pd.read_csv(file1_path, skiprows=[1])
-    df2 = pd.read_csv(file2_path, skiprows=[1])
-
-    if df1.shape != df2.shape:
-        raise ValueError("DataFrames have different shapes")
-
-    # check that the data frames contrain the same data types
-    assert df1.dtypes.equals(df2.dtypes)
-
-    # check that the data frames contain the same data
-    pd.testing.assert_frame_equal(
-        df1, df2, check_exact=False, rtol=tolerance, atol=tolerance
-    )
-
-    return True
-
-
-class OutputCheckerV2:
+class OutputChecker:
     """
     Check the output of a Snakemake rule given only the directories
     of the input data, expected output, and the working directory and
@@ -47,7 +24,13 @@ class OutputCheckerV2:
     """
 
     def __init__(
-        self, data_path, expected_path, workdir, configdir=None, tolerance=1e-4
+        self,
+        data_path,
+        expected_path,
+        workdir,
+        configdir=None,
+        tolerance=1e-4,
+        ignore_files: List[str] = ["ignore"],
     ):
         """
         Initialize the output checker.
@@ -56,6 +39,7 @@ class OutputCheckerV2:
         self.expected_path = expected_path
         self.workdir = workdir
         self.tolerance = tolerance
+        self.ignore_files = ignore_files
 
         if configdir is None:
             self.configdir = workdir / "config"
@@ -89,16 +73,20 @@ class OutputCheckerV2:
                 f = (Path(path) / f).relative_to(self.workdir)
                 if str(f).startswith(".snakemake"):
                     continue
+                if self.ignore_files:
+                    if any(str(f).endswith(prefix) for prefix in self.ignore_files):
+                        print(f"Ignoring file by type: {str(f)}")
+                        continue
                 if f in expected_files:
                     self.compare_files(self.workdir / f, self.expected_path / f)
                 elif f in input_files:
                     # ignore input files
-                    print("Ignoring input file: ", file=sys.stderr)
+                    print(f"Ignoring input file:  {str(f)}")
                     print(f, file=sys.stderr)
                     pass
                 elif f in config_files:
                     # ignore config files
-                    print("Ignoring config file: ", file=sys.stderr)
+                    print(f"Ignoring config file:  {str(f)}")
                     print(f, file=sys.stderr)
                     pass
                 else:
