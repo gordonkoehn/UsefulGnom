@@ -21,16 +21,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Run Super-Linter only on Snakefile and .smk files
-      - name: Lint Snakefiles Only
-        uses: github/super-linter/slim@v5
-        env:
-          VALIDATE_SNAKEMAKE_SNAKEFMT: true
-          FILTER_REGEX_INCLUDE: '(^Snakefile$|.*\.smk$)' # Only include Snakefile and .smk files
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DISABLE_ERRORS: true # TODO: Enforce clean snakefiles in CI
-
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
@@ -50,6 +40,10 @@ jobs:
         run: |
           pip install -e .
           pip install pytest
+          pip install snakefmt==0.10.2
+      - name: Snakemake Linting
+        run: |
+          snakefmt workflow/
 
       - name: Snakemake Testing
         run: |
