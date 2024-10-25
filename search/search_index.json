@@ -1,0 +1,1 @@
+{"config":{"lang":["en"],"separator":"[\\s\\-]+","pipeline":["stopWordFilter"]},"docs":[{"location":"contributing/","title":"Contributing","text":""},{"location":"api/","title":"API","text":""},{"location":"tutorial/","title":"Tutorial","text":""},{"location":"workflows/","title":"Workflows","text":""}]}
