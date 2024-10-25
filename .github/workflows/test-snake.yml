@@ -20,15 +20,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
-      # Run Super-Linter only on Snakefile and .smk files
-      - name: Lint Snakefiles Only
-        uses: github/super-linter/slim@v5
-        env:
-          VALIDATE_SNAKEMAKE_SNAKEFMT: true
-          FILTER_REGEX_INCLUDE: '(^Snakefile$|.*\.smk$)' # Only include Snakefile and .smk files
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DISABLE_ERRORS: true
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
