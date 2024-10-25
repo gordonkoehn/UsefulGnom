@@ -20,7 +20,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+      - name: Check snakefmt version
+        run: snakefmt --version
+      
       # Run Super-Linter only on Snakefile and .smk files
       - name: Lint Snakefiles Only
         uses: github/super-linter/slim@v5
