@@ -1,3 +1,0 @@
-orderbook: "data/AMZN_2012-06-21_34200000_57600000_message_1.csv"
-statistics: "results/statistics.csv"
-interval: 5  # interval in minutes
