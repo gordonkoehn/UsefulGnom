@@ -29,7 +29,7 @@ jobs:
           FILTER_REGEX_INCLUDE: '(^Snakefile$|.*\.smk$)' # Only include Snakefile and .smk files
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DISABLE_ERRORS: true # TODO: Enforce clean snakefiles in CI
+          DISABLE_ERRORS: false
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
